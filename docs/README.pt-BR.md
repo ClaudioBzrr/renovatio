@@ -11,6 +11,7 @@ Renovatio é uma PWA bilíngue para organizar micro-tarefas diárias com horári
 ## Links
 
 - **App:** https://claudiobzrr.github.io/renovatio/
+- **Landing page:** https://claudiobzrr.github.io/renovatio/#/inicio
 - **Repositório:** https://github.com/ClaudioBzrr/renovatio
 - **Documentação em inglês:** [README.md](README.md)
 

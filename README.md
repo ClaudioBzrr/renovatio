@@ -5,6 +5,7 @@
 Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what was minimally good and recording three good gestures a day. It is inspired by the video [“É por isso que você não sente prazer em nada (e como voltar a sentir)”](https://www.youtube.com/watch?v=aw3ksUsDVEE), from the **Saúde da Mente** channel.
 
 - **App:** https://claudiobzrr.github.io/renovatio/
+- **Landing page:** https://claudiobzrr.github.io/renovatio/#/inicio
 - **Repository:** https://github.com/ClaudioBzrr/renovatio
 - **English documentation:** [docs/README.md](docs/README.md)
 - **Portuguese documentation:** [docs/README.pt-BR.md](docs/README.pt-BR.md)

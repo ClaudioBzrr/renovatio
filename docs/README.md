@@ -11,6 +11,7 @@ Renovatio is a bilingual PWA for scheduling daily micro-tasks, training attentio
 ## Links
 
 - **App:** https://claudiobzrr.github.io/renovatio/
+- **Landing page:** https://claudiobzrr.github.io/renovatio/#/inicio
 - **Repository:** https://github.com/ClaudioBzrr/renovatio
 - **Portuguese documentation:** [README.pt-BR.md](README.pt-BR.md)
 
