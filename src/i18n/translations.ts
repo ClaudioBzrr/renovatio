@@ -351,7 +351,7 @@ const ptBR = {
     'O Renovatio é uma ferramenta de apoio inspirada em ativação comportamental. Não substitui psicoterapia, avaliação médica ou medicação. Se a falta de prazer persiste por semanas ou vem com desesperança, procure ajuda profissional.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'Vídeo que inspirou o Renovatio',
-  'settings.version': 'Renovatio 1.2.1 · feito para funcionar offline',
+  'settings.version': 'Renovatio 1.2.2 · feito para funcionar offline',
   'settings.resetTitle': 'Dados apagados.',
   'settings.resetDesc':
     'O Renovatio começa de novo, como se fosse a primeira vez.',
@@ -1263,7 +1263,7 @@ const enUS: Record<TranslationKey, string> = {
     'Renovatio is a support tool inspired by behavioral activation. It does not replace psychotherapy, medical assessment or medication. If the lack of pleasure persists for weeks or comes with hopelessness, seek professional help.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'The video that inspired Renovatio',
-  'settings.version': 'Renovatio 1.2.1 · built to work offline',
+  'settings.version': 'Renovatio 1.2.2 · built to work offline',
   'settings.resetTitle': 'Data erased.',
   'settings.resetDesc': 'Renovatio starts over, as if for the first time.',
   'language.switchAria': 'Choose language',

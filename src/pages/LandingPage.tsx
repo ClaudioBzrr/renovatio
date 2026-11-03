@@ -73,10 +73,56 @@ export function LandingPage({
   const rootRef = useRef<HTMLDivElement>(null)
   const primaryAction = isReturning ? onOpenApp : onStart
   const primaryLabel = isReturning ? t('landing.openApp') : t('landing.start')
+  const tickerWords = [
+    t('common.want'),
+    t('common.like'),
+    t('common.learn'),
+    t('landing.feature1Title'),
+    t('landing.feature3Title'),
+  ]
   const docsUrl =
     locale === 'pt-BR'
       ? 'https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.pt-BR.md'
       : 'https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.md'
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    let frame = 0
+    const updateScroll = () => {
+      frame = 0
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight
+      const progress =
+        maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0
+      root.style.setProperty('--scroll-progress', String(progress))
+      if (reducedMotion) return
+      const factor = window.innerWidth <= 720 ? 0.035 : 0.06
+      root.style.setProperty(
+        '--hero-parallax',
+        `${Math.min(window.scrollY * factor, 36)}px`,
+      )
+      root.style.setProperty(
+        '--copy-parallax',
+        `${Math.min(window.scrollY * factor * 0.35, 14)}px`,
+      )
+    }
+    const onScroll = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(updateScroll)
+    }
+    updateScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
 
   useEffect(() => {
     const root = rootRef.current
@@ -110,6 +156,9 @@ export function LandingPage({
 
   return (
     <div className="landing" ref={rootRef}>
+      <div className="landing__progress" aria-hidden="true">
+        <span />
+      </div>
       <header className="landing__nav">
         <Brand />
         <nav className="landing__nav-links" aria-label={t('nav.main')}>
@@ -218,6 +267,21 @@ export function LandingPage({
           </div>
         </section>
 
+        <div className="landing__ticker" aria-hidden="true">
+          <div className="landing__ticker-track">
+            {[0, 1].map((group) => (
+              <span key={group} className="landing__ticker-group">
+                {tickerWords.map((word) => (
+                  <span key={`${group}-${word}`} className="landing__ticker-item">
+                    {word}
+                    <i>·</i>
+                  </span>
+                ))}
+              </span>
+            ))}
+          </div>
+        </div>
+
         <section id="como-funciona" className="landing__section">
           <header className="landing__section-head" data-reveal>
             <p className="eyebrow">{t('landing.featuresEyebrow')}</p>
@@ -244,7 +308,7 @@ export function LandingPage({
           </div>
         </section>
 
-        <section id="metodo" className="landing__method" data-reveal>
+        <section id="metodo" className="landing__method" data-reveal="scale">
           <div className="landing__method-copy">
             <p className="eyebrow">{t('landing.methodEyebrow')}</p>
             <h2>{t('landing.methodTitle')}</h2>
@@ -267,7 +331,7 @@ export function LandingPage({
         </section>
 
         <section className="landing__source">
-          <div className="landing__source-copy" data-reveal>
+          <div className="landing__source-copy" data-reveal="left">
             <p className="eyebrow">{t('landing.videoEyebrow')}</p>
             <h2>{t('landing.videoTitle')}</h2>
             <p>{t('landing.videoDesc')}</p>
@@ -279,14 +343,18 @@ export function LandingPage({
               {t('landing.videoLink')} <ArrowUpRight size={15} />
             </a>
           </div>
-          <div className="landing__quote-card" data-reveal style={{ animationDelay: '90ms' }}>
+          <div
+            className="landing__quote-card"
+            data-reveal="right"
+            style={{ animationDelay: '90ms' }}
+          >
             <Quote size={22} strokeWidth={1.6} />
             <p>{t('method.pullquote')}</p>
             <small>Renovatio · {t('landing.methodEyebrow')}</small>
           </div>
         </section>
 
-        <section id="seguranca" className="landing__safety-section" data-reveal>
+        <section id="seguranca" className="landing__safety-section" data-reveal="left">
           <div>
             <p className="eyebrow">{t('landing.safetyTitle')}</p>
             <h2>{t('landing.safetyText')}</h2>
@@ -301,7 +369,7 @@ export function LandingPage({
           </div>
         </section>
 
-        <section className="landing__final" data-reveal>
+        <section className="landing__final" data-reveal="scale">
           <span className="landing__final-mark">
             <BrandMark size={50} />
           </span>
