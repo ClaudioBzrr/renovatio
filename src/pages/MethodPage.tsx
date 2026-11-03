@@ -26,6 +26,16 @@ const SECTIONS: { id: string; labelKey: TranslationKey }[] = [
   { id: 'renovatio', labelKey: 'method.tocHelp' },
   { id: 'terceira-semana', labelKey: 'method.tocThird' },
   { id: 'seguranca', labelKey: 'method.tocSafety' },
+  { id: 'faq', labelKey: 'method.tocFaq' },
+]
+
+const FAQS: { q: TranslationKey; a: TranslationKey }[] = [
+  { q: 'method.faqQ1', a: 'method.faqA1' },
+  { q: 'method.faqQ2', a: 'method.faqA2' },
+  { q: 'method.faqQ3', a: 'method.faqA3' },
+  { q: 'method.faqQ4', a: 'method.faqA4' },
+  { q: 'method.faqQ5', a: 'method.faqA5' },
+  { q: 'method.faqQ6', a: 'method.faqA6' },
 ]
 
 export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPageProps) {
@@ -242,6 +252,19 @@ export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPagePro
               </a>
               {t('method.sourceSuffix')}
             </p>
+          </section>
+
+          <section id="faq" className="method-section">
+            <p className="eyebrow">{t('method.faqEyebrow')}</p>
+            <h2>{t('method.faqTitle')}</h2>
+            <div className="method-faq">
+              {FAQS.map((item) => (
+                <article key={item.q} className="method-faq__item">
+                  <h3>{t(item.q)}</h3>
+                  <p>{t(item.a)}</p>
+                </article>
+              ))}
+            </div>
           </section>
 
           <div className="method-cta">

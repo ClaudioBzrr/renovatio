@@ -351,7 +351,7 @@ const ptBR = {
     'O Renovatio é uma ferramenta de apoio inspirada em ativação comportamental. Não substitui psicoterapia, avaliação médica ou medicação. Se a falta de prazer persiste por semanas ou vem com desesperança, procure ajuda profissional.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'Vídeo que inspirou o Renovatio',
-  'settings.version': 'Renovatio 1.1 · feito para funcionar offline',
+  'settings.version': 'Renovatio 1.1.1 · feito para funcionar offline',
   'settings.resetTitle': 'Dados apagados.',
   'settings.resetDesc':
     'O Renovatio começa de novo, como se fosse a primeira vez.',
@@ -637,6 +637,7 @@ const ptBR = {
   'method.tocHelp': 'Como o Renovatio ajuda',
   'method.tocThird': 'A terceira semana',
   'method.tocSafety': 'Segurança e limites',
+  'method.tocFaq': 'Perguntas frequentes',
   'method.quote': '“Não espere a vontade. Marque um horário.”',
   'method.contextEyebrow': 'Contexto',
   'method.contextTitle': 'O prazer não é um bloco único.',
@@ -804,6 +805,26 @@ const ptBR = {
   'backup.importedTitle': 'Backup restaurado.',
   'backup.importedDesc':
     'Os dados do backup substituíram os dados deste aparelho.',
+  'method.faqEyebrow': 'Perguntas frequentes',
+  'method.faqTitle': 'Dúvidas comuns sobre o Renovatio.',
+  'method.faqQ1': 'O que é o Renovatio?',
+  'method.faqA1':
+    'Renovatio é um PWA bilíngue e gratuito que ajuda as pessoas a agendar pequenas tarefas diárias, refletir sobre o que foi minimamente bom e registrar três bons gestos por dia. É inspirado em ativação comportamental.',
+  'method.faqQ2': 'O Renovatio trata anedonia ou depressão?',
+  'method.faqA2':
+    'Não. Renovatio é uma ferramenta de apoio, não um dispositivo médico ou tratamento. Não diagnostica, não trata e não substitui psicoterapia, avaliação médica ou medicação. Procure ajuda profissional se a falta de prazer persistir ou vier com desesperança.',
+  'method.faqQ3': 'O Renovatio funciona offline?',
+  'method.faqA3':
+    'Sim. Depois da primeira visita, o app é armazenado por um service worker e funciona offline. Os dados ficam no aparelho.',
+  'method.faqQ4': 'Como meus dados são armazenados?',
+  'method.faqA4':
+    'Todos os registros ficam no armazenamento local do navegador no aparelho. Backups criptografados usam AES-256-GCM com uma senha escolhida pelo usuário. Não há conta, nuvem ou analytics.',
+  'method.faqQ5': 'Existe versão em português?',
+  'method.faqA5':
+    'Sim. O app e a documentação estão disponíveis em inglês e português do Brasil. Use o seletor de idioma ou abra a URL com ?lang=pt-BR.',
+  'method.faqQ6': 'Como funcionam os lembretes?',
+  'method.faqA6':
+    'Renovatio pede permissão de notificação e agenda lembretes locais por meio de um service worker. A entrega exata em segundo plano depende do navegador e do sistema operacional, porque o app não usa um servidor de Web Push.',
 } as const
 
 export type TranslationKey = keyof typeof ptBR
@@ -1168,7 +1189,7 @@ const enUS: Record<TranslationKey, string> = {
     'Renovatio is a support tool inspired by behavioral activation. It does not replace psychotherapy, medical assessment or medication. If the lack of pleasure persists for weeks or comes with hopelessness, seek professional help.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'The video that inspired Renovatio',
-  'settings.version': 'Renovatio 1.1 · built to work offline',
+  'settings.version': 'Renovatio 1.1.1 · built to work offline',
   'settings.resetTitle': 'Data erased.',
   'settings.resetDesc': 'Renovatio starts over, as if for the first time.',
   'language.switchAria': 'Choose language',
@@ -1451,6 +1472,7 @@ const enUS: Record<TranslationKey, string> = {
   'method.tocHelp': 'How Renovatio helps',
   'method.tocThird': 'The third week',
   'method.tocSafety': 'Safety and limits',
+  'method.tocFaq': 'Frequently asked questions',
   'method.quote': '“Do not wait for motivation. Set a time.”',
   'method.contextEyebrow': 'Context',
   'method.contextTitle': 'Pleasure is not a single block.',
@@ -1616,6 +1638,26 @@ const enUS: Record<TranslationKey, string> = {
   'backup.importedTitle': 'Backup restored.',
   'backup.importedDesc':
     'The backup data replaced the data on this device.',
+  'method.faqEyebrow': 'Frequently asked questions',
+  'method.faqTitle': 'Common questions about Renovatio.',
+  'method.faqQ1': 'What is Renovatio?',
+  'method.faqA1':
+    'Renovatio is a free bilingual progressive web app that helps people schedule small daily tasks, reflect on what was minimally good, and record three good gestures a day. It is inspired by behavioral activation.',
+  'method.faqQ2': 'Is Renovatio a treatment for anhedonia or depression?',
+  'method.faqA2':
+    'No. Renovatio is a support tool, not a medical device or treatment. It does not diagnose, treat or replace psychotherapy, medical assessment or medication. Seek professional help if loss of pleasure persists or is accompanied by hopelessness.',
+  'method.faqQ3': 'Does Renovatio work offline?',
+  'method.faqA3':
+    'Yes. After the first visit, the app is cached by a service worker and works offline. Data stays on the device.',
+  'method.faqQ4': 'How is my data stored?',
+  'method.faqA4':
+    "All records stay in the browser's local storage on the device. Encrypted backups use AES-256-GCM with a password chosen by the user. No account, cloud or analytics is used.",
+  'method.faqQ5': 'Is there a Portuguese version?',
+  'method.faqA5':
+    'Yes. The app and documentation are available in English and Brazilian Portuguese. Use the language switch or open the URL with ?lang=pt-BR.',
+  'method.faqQ6': 'How do reminders work?',
+  'method.faqA6':
+    'Renovatio requests notification permission and schedules local reminders through a service worker. Exact background delivery depends on the browser and operating system because the app does not use a Web Push server.',
 }
 
 export const translations = {

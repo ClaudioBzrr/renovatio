@@ -232,6 +232,10 @@ function check(name, condition, detail = '') {
     methodTitle.includes('Anhedonia is not laziness'),
     methodTitle,
   )
+  check(
+    'English FAQ renders',
+    await page.getByText('What is Renovatio?').isVisible().catch(() => false),
+  )
   await context.close()
 }
 

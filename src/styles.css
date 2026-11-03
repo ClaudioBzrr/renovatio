@@ -7928,3 +7928,47 @@ p {
 .history-stat > span:last-child {
   font-size: 11px;
 }
+
+/* ---------- Method FAQ ---------- */
+
+.method-faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.method-faq__item {
+  padding: 17px 18px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--surface);
+}
+
+.method-faq__item h3 {
+  margin-bottom: 5px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.method-faq__item p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+@media (max-width: 720px) {
+  .method-faq {
+    grid-template-columns: 1fr;
+  }
+
+  .method-faq__item h3 {
+    font-size: 14px;
+  }
+
+  .method-faq__item p {
+    font-size: 12.5px;
+  }
+}

@@ -17,7 +17,7 @@ export default defineConfig({
         short_name: 'Renovatio',
         description:
           'Pequenos gestos para reacender o prazer. Small steps to feel again. Micro-tarefas com horário, três bons gestos por dia e um registro do que foi minimamente bom.',
-        lang: 'pt-BR',
+        lang: 'en',
         dir: 'ltr',
         id: './',
         start_url: './#/hoje',
