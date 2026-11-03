@@ -1,0 +1,34 @@
+# Renovatio
+
+> Renovatio is a free bilingual (English and Brazilian Portuguese) progressive web app for scheduling micro-tasks, reflecting on what was minimally good and recording three good gestures a day. It is inspired by behavioral activation and is not a medical treatment.
+
+## Canonical URLs
+
+- App: https://claudiobzrr.github.io/renovatio/
+- English app: https://claudiobzrr.github.io/renovatio/?lang=en
+- Portuguese app: https://claudiobzrr.github.io/renovatio/?lang=pt-BR
+- English documentation: https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.md
+- Portuguese documentation: https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.pt-BR.md
+- Source repository: https://github.com/ClaudioBzrr/renovatio
+
+## What Renovatio does
+
+- Schedules one to three micro-tasks per day with a time and weekdays.
+- Sends local browser reminders through a service worker.
+- Guides a two-minute anticipation exercise and a one-minute sensory pause.
+- Requires a written reflection about what was minimally good after each micro-task.
+- Tracks a daily goal of three good gestures: kindness, connection and accomplishment.
+- Shows history, a heatmap and encrypted local backups.
+- Works offline after the first visit and can be installed as a PWA.
+
+## Important limits
+
+Renovatio does not diagnose, treat or replace psychotherapy, medical assessment, medication or emergency support. Exact background notification delivery is not guaranteed because the app does not use a Web Push server. All records stay on the device. Encrypted backups use AES-256-GCM with a user-chosen password; the password is not stored and cannot be recovered.
+
+## Source and safety
+
+The concept is inspired by the video “É por isso que você não sente prazer em nada (e como voltar a sentir)” from the Saúde da Mente channel. Renovatio is an independent project. In a crisis, call 188 (CVV, Brazil, 24h) or 192 (SAMU).
+
+## Language policy
+
+English is the default documentation language. The complete Portuguese documentation is a separate file.

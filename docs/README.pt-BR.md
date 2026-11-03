@@ -1,8 +1,8 @@
-# Renovatio — documentação em português
+﻿# Renovatio — documentação em português
 
 **Pequenos gestos para voltar a sentir.**
 
-[English version](README.en-US.md) · [Voltar ao README](../README.md)
+[Versão em inglês](README.md) · [Voltar ao README](../README.md)
 
 Renovatio é uma PWA bilíngue para organizar micro-tarefas diárias com horário, treinar a atenção para o que foi minimamente bom e registrar três bons gestos por dia. A proposta é inspirada no vídeo [“É por isso que você não sente prazer em nada (e como voltar a sentir)”](https://www.youtube.com/watch?v=aw3ksUsDVEE), do canal **Saúde da Mente**.
 
@@ -12,7 +12,7 @@ Renovatio é uma PWA bilíngue para organizar micro-tarefas diárias com horári
 
 - **App:** https://claudiobzrr.github.io/renovatio/
 - **Repositório:** https://github.com/ClaudioBzrr/renovatio
-- **Documentação em inglês:** [README.en-US.md](README.en-US.md)
+- **Documentação em inglês:** [README.md](README.md)
 
 ## Idiomas
 
@@ -25,9 +25,10 @@ A escolha fica salva em `localStorage` (`renovatio.locale`). É possível trocar
 
 - no topo do onboarding, nos botões **PT / EN**;
 - nos **Ajustes → Perfil → Idioma**;
+- pelas URLs compartilháveis `?lang=en` e `?lang=pt-BR`;
 - recarregando a página, a escolha é mantida.
 
-A troca atualiza toda a interface, os textos de acessibilidade, as datas (`Intl`), os títulos das notificações e o atributo `lang` do documento. Os dados já escritos pelo usuário não são traduzidos.
+A troca atualiza toda a interface, os textos de acessibilidade, as datas (`Intl`), os títulos das notificações e o atributo `lang` do documento. Os dados já escritos pelo usuário não são traduzidos. A documentação padrão é em inglês; a versão em inglês fica em [README.md](README.md).
 
 ## O que o app faz
 
@@ -35,7 +36,7 @@ A troca atualiza toda a interface, os textos de acessibilidade, as datas (`Intl`
 - **Modo presença:** dois minutos de visualização antes de começar (querer) e um minuto de atenção aos sentidos durante a tarefa (gostar).
 - **Reflexão obrigatória:** para concluir uma micro-tarefa, é preciso escrever o que foi minimamente bom. O campo é o treino de “aprender” e funciona como anti-damping.
 - **Meta diária de três bons gestos:** gentileza, conexão e realização. Cada gesto precisa ser reportado; a meta reinicia à meia-noite.
-- **Histórico e prova:** reflexões, bons gestos, mapa de calor das últimas semanas e exportação dos dados em JSON.
+- **Histórico e prova:** reflexões, bons gestos, mapa de calor das últimas semanas e exportação/importação de backup criptografado.
 - **PWA instalável e offline:** manifest, service worker, cache dos arquivos e atalhos de instalação.
 - **Privacidade:** sem conta, sem nuvem e sem rastreamento. Tudo fica no `localStorage` do seu navegador.
 
@@ -103,9 +104,21 @@ Os lembretes usam a API de notificações do navegador e o service worker:
 - Sem conta, sem servidor e sem analytics.
 - Tudo fica em `localStorage` (`renovatio.data.v1`) e no IndexedDB do service worker para os lembretes.
 - O app migra automaticamente dados da chave antiga `brasa.data.v1`, caso existam.
-- **Ajustes → Dados → Exportar meus dados** baixa um JSON com tarefas, reflexões, bons gestos e configurações.
+- **Ajustes → Dados → Exportar backup criptografado** cria um arquivo `.renovatio` protegido por senha. O conteúdo é criptografado localmente com **AES-256-GCM** e uma chave derivada com **PBKDF2-SHA-256 (310.000 iterações)**. A senha não é armazenada nem enviada a servidores.
+- **Ajustes → Dados → Importar backup criptografado** restaura um arquivo `.renovatio` e substitui os dados atuais após verificar a senha. Não há recuperação se a senha for perdida.
 - **Apagar todos os dados** remove tudo do aparelho, com confirmação.
-- O navegador pode limpar o armazenamento local; exporte um backup se quiser guardar o histórico.
+- O navegador pode limpar o armazenamento local; exporte um backup criptografado se quiser guardar o histórico.
+
+## SEO, GEO e LLMO
+
+O build público inclui:
+
+- tags canônicas, Open Graph, Twitter Card, hreflang (`en`, `pt-BR`, `x-default`) e robots;
+- dados estruturados JSON-LD para `WebApplication`, `WebSite`, `FAQPage` e `HowTo`;
+- `robots.txt` e `sitemap.xml`;
+- `llms.txt` e `llms-full.txt` para modelos de linguagem e mecanismos generativos;
+- URLs por idioma `?lang=en` e `?lang=pt-BR`;
+- HTML semântico, fallback sem JavaScript em inglês e fontes auto-hospedadas.
 
 ## Testes
 
@@ -117,7 +130,8 @@ Há um teste de fumaça com Playwright usando o Chrome instalado. Ele cobre:
 - notificação de sistema e aviso dentro do app;
 - service worker e recarga offline;
 - manifest e ícones;
-- troca de idioma, persistência e páginas em inglês.
+- troca de idioma, persistência e páginas em inglês;
+- exportação e importação de backup criptografado.
 
 Em um terminal:
 
@@ -149,7 +163,7 @@ src/
   styles.css     sistema visual completo
 docs/
   README.pt-BR.md
-  README.en-US.md
+  README.md
 scripts/
   make-icons.mjs gera os ícones PNG a partir do SVG da marca
   functional.mjs teste de fumaça com Playwright
@@ -164,3 +178,4 @@ public/
 O conteúdo do vídeo e a marca do canal pertencem ao canal **Saúde da Mente**. Renovatio é um projeto independente, sem vínculo com o canal. As decisões de produto, os textos e a implementação são deste projeto.
 
 As sugestões de micro-tarefas e bons gestos são exemplos, não prescrições clínicas. Se a falta de prazer persistir por semanas, vier com alterações de sono, apetite, energia, isolamento ou desesperança, procure um profissional de saúde mental.
+

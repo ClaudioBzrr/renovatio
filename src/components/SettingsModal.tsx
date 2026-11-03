@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Smartphone,
   Trash2,
+  Upload,
   UserRound,
 } from 'lucide-react'
 import { Modal } from './Modal'
@@ -28,8 +29,8 @@ import {
   syncReminders,
   type PermissionState,
 } from '../lib/notifications'
-import { exportData } from '../lib/storage'
 import { formatFullDate } from '../lib/date'
+import type { BackupMode } from './BackupModal'
 import { useI18n } from '../i18n/I18nProvider'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -42,6 +43,7 @@ interface SettingsModalProps {
   isStandalone: boolean
   isIos: boolean
   onOpenMethod: () => void
+  onOpenBackup: (mode: BackupMode) => void
 }
 
 const TABS: { key: SettingsTab; labelKey: TranslationKey; icon: typeof UserRound }[] = [
@@ -59,6 +61,7 @@ export function SettingsModal({
   isStandalone,
   isIos,
   onOpenMethod,
+  onOpenBackup,
 }: SettingsModalProps) {
   const {
     data,
@@ -392,21 +395,31 @@ export function SettingsModal({
                 <span>{t('settings.statsTasks')}</span>
               </div>
             </div>
-            <button
-              type="button"
-              className="settings-row-button"
-              onClick={() => {
-                exportData(data)
-                pushToast({
-                  title: t('settings.exportTitle'),
-                  description: t('settings.exportDesc'),
-                  tone: 'success',
-                })
-              }}
-            >
-              <Download size={17} strokeWidth={1.8} />
-              {t('settings.export')}
-            </button>
+            <p className="settings-disclaimer">{t('settings.backupNote')}</p>
+            <div className="settings-backup-actions">
+              <button
+                type="button"
+                className="settings-row-button"
+                onClick={() => {
+                  onClose()
+                  onOpenBackup('export')
+                }}
+              >
+                <Download size={17} strokeWidth={1.8} />
+                {t('settings.export')}
+              </button>
+              <button
+                type="button"
+                className="settings-row-button"
+                onClick={() => {
+                  onClose()
+                  onOpenBackup('import')
+                }}
+              >
+                <Upload size={17} strokeWidth={1.8} />
+                {t('settings.import')}
+              </button>
+            </div>
           </section>
 
           <section className="settings-section">

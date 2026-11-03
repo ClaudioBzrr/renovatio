@@ -11,6 +11,7 @@ import { ReflectionModal } from './components/ReflectionModal'
 import { PresenceModal } from './components/PresenceModal'
 import { GoodActionModal } from './components/GoodActionModal'
 import { SettingsModal } from './components/SettingsModal'
+import { BackupModal, type BackupMode } from './components/BackupModal'
 import { Onboarding } from './pages/Onboarding'
 import { TodayPage } from './pages/TodayPage'
 import { RoutinePage } from './pages/RoutinePage'
@@ -57,6 +58,7 @@ export function App() {
 
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<SettingsTab>('perfil')
+  const [backupMode, setBackupMode] = useState<BackupMode | null>(null)
   const [taskForm, setTaskForm] = useState<TaskFormState>({ open: false })
   const [goodAction, setGoodAction] = useState<GoodActionState>({ open: false })
   const [reflection, setReflection] = useState<ReflectionState | null>(null)
@@ -335,6 +337,16 @@ export function App() {
           setSettingsOpen(false)
           navigate(pathFor('metodo'))
         }}
+        onOpenBackup={(mode) => {
+          setSettingsOpen(false)
+          setBackupMode(mode)
+        }}
+      />
+
+      <BackupModal
+        open={backupMode !== null}
+        mode={backupMode ?? 'export'}
+        onClose={() => setBackupMode(null)}
       />
     </>
   )

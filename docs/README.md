@@ -1,8 +1,8 @@
-# Renovatio — English documentation
+﻿# Renovatio — English documentation
 
 **Small steps to feel again.**
 
-[Versão em português](README.pt-BR.md) · [Back to README](../README.md)
+[Portuguese version](README.pt-BR.md) · [Back to README](../README.md)
 
 Renovatio is a bilingual PWA for scheduling daily micro-tasks, training attention to what was minimally good and recording three good gestures a day. It is inspired by the video [“É por isso que você não sente prazer em nada (e como voltar a sentir)”](https://www.youtube.com/watch?v=aw3ksUsDVEE), from the **Saúde da Mente** channel.
 
@@ -25,9 +25,10 @@ The choice is saved in `localStorage` (`renovatio.locale`). You can switch:
 
 - at the top of onboarding, with the **PT / EN** buttons;
 - in **Settings → Profile → Language**;
+- with the shareable URLs `?lang=en` and `?lang=pt-BR`;
 - the choice persists after reloading the page.
 
-Switching updates the entire interface, accessibility text, dates (`Intl`), notification titles and the document `lang` attribute. Content the user has already written is not translated.
+Switching updates the entire interface, accessibility text, dates (`Intl`), notification titles and the document `lang` attribute. Content the user has already written is not translated. English is the default documentation language; the complete Portuguese documentation lives in [README.pt-BR.md](README.pt-BR.md).
 
 ## What the app does
 
@@ -35,7 +36,7 @@ Switching updates the entire interface, accessibility text, dates (`Intl`), noti
 - **Presence mode:** two minutes of visualization before starting (wanting) and one minute of attention to the senses during the task (liking).
 - **Required reflection:** to complete a micro-task, you must write what was minimally good. This field is the “learning” training and works as anti-damping.
 - **Daily goal of three good gestures:** kindness, connection and accomplishment. Each gesture must be reported; the goal resets at midnight.
-- **History and evidence:** reflections, good gestures, a heatmap of recent weeks and JSON data export.
+- **History and evidence:** reflections, good gestures, a heatmap of recent weeks and encrypted backup export/import.
 - **Installable offline PWA:** manifest, service worker, asset cache and install shortcuts.
 - **Privacy:** no account, no cloud and no tracking. Everything stays in your browser’s `localStorage`.
 
@@ -103,9 +104,21 @@ Reminders use the browser notification API and the service worker:
 - No account, no server and no analytics.
 - Everything stays in `localStorage` (`renovatio.data.v1`) and in the service worker’s IndexedDB for reminders.
 - The app automatically migrates data from the old `brasa.data.v1` key if it exists.
-- **Settings → Data → Export my data** downloads a JSON file with tasks, reflections, good gestures and settings.
+- **Settings → Data → Export encrypted backup** creates a `.renovatio` file protected by a password. The payload is encrypted locally with **AES-256-GCM** and a key derived with **PBKDF2-SHA-256 (310,000 iterations)**. The password is never stored or sent to a server.
+- **Settings → Data → Import encrypted backup** restores a `.renovatio` file and replaces the current data after password verification. There is no recovery if the password is lost.
 - **Erase all data** removes everything from the device after confirmation.
-- The browser may clear local storage; export a backup if you want to keep your history.
+- The browser may clear local storage; export an encrypted backup if you want to keep your history.
+
+## SEO, GEO and LLMO
+
+The public build includes:
+
+- canonical, Open Graph, Twitter Card, hreflang (`en`, `pt-BR`, `x-default`) and robots meta tags;
+- JSON-LD structured data for `WebApplication`, `WebSite`, `FAQPage` and `HowTo`;
+- `robots.txt` and `sitemap.xml`;
+- `llms.txt` and `llms-full.txt` for large language models and generative engines;
+- language-specific URLs `?lang=en` and `?lang=pt-BR`;
+- semantic HTML, an English no-JavaScript fallback and self-hosted fonts.
 
 ## Tests
 
@@ -117,7 +130,8 @@ There is a Playwright smoke test using the installed Chrome. It covers:
 - system notification and in-app alert;
 - service worker and offline reload;
 - manifest and icons;
-- language switching, persistence and English pages.
+- language switching, persistence and English pages;
+- encrypted backup export and import.
 
 In one terminal:
 
@@ -149,7 +163,7 @@ src/
   styles.css     complete visual system
 docs/
   README.pt-BR.md
-  README.en-US.md
+  README.md
 scripts/
   make-icons.mjs generates PNG icons from the brand SVG
   functional.mjs Playwright smoke test
@@ -164,3 +178,4 @@ public/
 The video content and channel brand belong to the **Saúde da Mente** channel. Renovatio is an independent project, not affiliated with the channel. Product decisions, texts and implementation are ours.
 
 The micro-task and good-gesture suggestions are examples, not clinical prescriptions. If the lack of pleasure persists for weeks, or comes with changes in sleep, appetite, energy, isolation or hopelessness, seek a mental health professional.
+

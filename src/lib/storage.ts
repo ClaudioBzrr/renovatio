@@ -121,6 +121,46 @@ export function createDefaultData(): AppData {
   }
 }
 
+export function normalizeAppData(value: unknown): AppData {
+  if (!isRecord(value)) {
+    throw new Error('Invalid Renovatio backup')
+  }
+  const defaults = createDefaultData()
+  const profile = isRecord(value.profile) ? value.profile : {}
+  const settings = isRecord(value.settings) ? value.settings : {}
+  return {
+    version: 1,
+    profile: {
+      name: stringOr(profile.name, '').slice(0, 40),
+      onboarded: profile.onboarded === true,
+      createdAt: stringOr(profile.createdAt, defaults.profile.createdAt),
+    },
+    tasks: Array.isArray(value.tasks)
+      ? value.tasks
+          .map(normalizeTask)
+          .filter((task): task is MicroTask => task !== null)
+          .slice(0, MAX_TASKS)
+      : [],
+    completions: Array.isArray(value.completions)
+      ? value.completions
+          .map(normalizeCompletion)
+          .filter((item): item is TaskCompletion => item !== null)
+      : [],
+    goodActions: Array.isArray(value.goodActions)
+      ? value.goodActions
+          .map(normalizeGoodAction)
+          .filter((item): item is GoodAction => item !== null)
+      : [],
+    settings: {
+      notificationsEnabled: settings.notificationsEnabled === true,
+      reminderLead:
+        settings.reminderLead === 5 || settings.reminderLead === 10
+          ? settings.reminderLead
+          : 0,
+    },
+  }
+}
+
 export function loadData(): AppData {
   if (typeof localStorage === 'undefined') return createDefaultData()
   try {
@@ -128,42 +168,7 @@ export function loadData(): AppData {
       localStorage.getItem(STORAGE_KEY) ??
       localStorage.getItem(LEGACY_STORAGE_KEY)
     if (!raw) return createDefaultData()
-    const parsed: unknown = JSON.parse(raw)
-    if (!isRecord(parsed)) return createDefaultData()
-    const defaults = createDefaultData()
-    const profile = isRecord(parsed.profile) ? parsed.profile : {}
-    const settings = isRecord(parsed.settings) ? parsed.settings : {}
-    return {
-      version: 1,
-      profile: {
-        name: stringOr(profile.name, '').slice(0, 40),
-        onboarded: profile.onboarded === true,
-        createdAt: stringOr(profile.createdAt, defaults.profile.createdAt),
-      },
-      tasks: Array.isArray(parsed.tasks)
-        ? parsed.tasks
-            .map(normalizeTask)
-            .filter((task): task is MicroTask => task !== null)
-            .slice(0, MAX_TASKS)
-        : [],
-      completions: Array.isArray(parsed.completions)
-        ? parsed.completions
-            .map(normalizeCompletion)
-            .filter((item): item is TaskCompletion => item !== null)
-        : [],
-      goodActions: Array.isArray(parsed.goodActions)
-        ? parsed.goodActions
-            .map(normalizeGoodAction)
-            .filter((item): item is GoodAction => item !== null)
-        : [],
-      settings: {
-        notificationsEnabled: settings.notificationsEnabled === true,
-        reminderLead:
-          settings.reminderLead === 5 || settings.reminderLead === 10
-            ? settings.reminderLead
-            : 0,
-      },
-    }
+    return normalizeAppData(JSON.parse(raw))
   } catch {
     return createDefaultData()
   }
@@ -178,16 +183,4 @@ export function saveData(data: AppData): void {
   }
 }
 
-export function exportData(data: AppData): void {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: 'application/json',
-  })
-  const url = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = `renovatio-${new Date().toISOString().slice(0, 10)}.json`
-  document.body.appendChild(anchor)
-  anchor.click()
-  anchor.remove()
-  URL.revokeObjectURL(url)
-}
+

@@ -322,10 +322,13 @@ const ptBR = {
   'settings.statsSparks': 'faíscas',
   'settings.statsGood': 'bons gestos',
   'settings.statsTasks': 'micro-tarefas',
-  'settings.export': 'Exportar meus dados',
+  'settings.export': 'Exportar backup criptografado',
+  'settings.import': 'Importar backup criptografado',
+  'settings.backupNote':
+    'O backup é criptografado neste aparelho com AES-256-GCM. A senha não é armazenada nem enviada a servidores.',
   'settings.exportTitle': 'Backup exportado.',
   'settings.exportDesc':
-    'Um arquivo JSON com todos os seus registros foi baixado.',
+    'Um arquivo criptografado com todos os seus registros foi baixado.',
   'settings.installTitle': 'Instalar',
   'settings.installStandalone':
     'Você já está usando o Renovatio instalado. Ele abre sem a barra do navegador.',
@@ -348,7 +351,7 @@ const ptBR = {
     'O Renovatio é uma ferramenta de apoio inspirada em ativação comportamental. Não substitui psicoterapia, avaliação médica ou medicação. Se a falta de prazer persiste por semanas ou vem com desesperança, procure ajuda profissional.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'Vídeo que inspirou o Renovatio',
-  'settings.version': 'Renovatio 1.0 · feito para funcionar offline',
+  'settings.version': 'Renovatio 1.1 · feito para funcionar offline',
   'settings.resetTitle': 'Dados apagados.',
   'settings.resetDesc':
     'O Renovatio começa de novo, como se fosse a primeira vez.',
@@ -759,6 +762,48 @@ const ptBR = {
   'today.descriptionLead': 'Hoje não precisa ser grandioso.',
   'today.descriptionEm': 'Precisa ser notado.',
   'today.enableReminders': 'Ativar lembretes',
+  'backup.exportEyebrow': 'Backup criptografado',
+  'backup.exportTitle': 'Proteger e exportar',
+  'backup.exportLede':
+    'Crie uma senha para criptografar o backup. Guarde a senha: sem ela, o arquivo não pode ser aberto.',
+  'backup.importEyebrow': 'Restaurar backup',
+  'backup.importTitle': 'Importar backup criptografado',
+  'backup.importLede':
+    'Escolha um arquivo .renovatio e informe a senha usada na exportação.',
+  'backup.password': 'Senha do backup',
+  'backup.passwordPlaceholder': 'Mínimo de 8 caracteres',
+  'backup.confirmPassword': 'Confirme a senha',
+  'backup.confirmPlaceholder': 'Repita a senha',
+  'backup.showPassword': 'Mostrar senha',
+  'backup.hidePassword': 'Ocultar senha',
+  'backup.securityTitle': 'Criptografia no aparelho',
+  'backup.securityNote':
+    'AES-256-GCM com PBKDF2-SHA-256 (310.000 iterações). O arquivo é criado localmente e nada é enviado a servidores.',
+  'backup.warning':
+    'Guarde a senha. Sem ela, o backup não pode ser recuperado.',
+  'backup.fileLabel': 'Arquivo de backup',
+  'backup.chooseFile': 'Escolher arquivo .renovatio',
+  'backup.fileHelp':
+    'Selecione um backup exportado pelo Renovatio. A importação substitui os dados atuais.',
+  'backup.exportSubmit': 'Exportar backup',
+  'backup.importSubmit': 'Importar e substituir',
+  'backup.importWarning':
+    'A importação substitui todas as micro-tarefas, reflexões e bons gestos deste aparelho.',
+  'backup.errorPasswordShort': 'Use uma senha com pelo menos 8 caracteres.',
+  'backup.errorPasswordMismatch': 'As senhas não coincidem.',
+  'backup.errorNoFile': 'Escolha um arquivo de backup válido.',
+  'backup.errorDecrypt':
+    'Não foi possível abrir o backup. Verifique a senha e o arquivo.',
+  'backup.errorCrypto':
+    'Este navegador não oferece criptografia segura. Use um navegador atualizado em HTTPS.',
+  'backup.errorGeneric':
+    'Não foi possível concluir a operação. Tente novamente.',
+  'backup.exportedTitle': 'Backup criptografado exportado.',
+  'backup.exportedDesc':
+    'Guarde o arquivo e a senha em lugares seguros.',
+  'backup.importedTitle': 'Backup restaurado.',
+  'backup.importedDesc':
+    'Os dados do backup substituíram os dados deste aparelho.',
 } as const
 
 export type TranslationKey = keyof typeof ptBR
@@ -1094,10 +1139,13 @@ const enUS: Record<TranslationKey, string> = {
   'settings.statsSparks': 'sparks',
   'settings.statsGood': 'good gestures',
   'settings.statsTasks': 'micro-tasks',
-  'settings.export': 'Export my data',
+  'settings.export': 'Export encrypted backup',
+  'settings.import': 'Import encrypted backup',
+  'settings.backupNote':
+    'The backup is encrypted on this device with AES-256-GCM. The password is never stored or sent to servers.',
   'settings.exportTitle': 'Backup exported.',
   'settings.exportDesc':
-    'A JSON file with all your records has been downloaded.',
+    'An encrypted file with all your records has been downloaded.',
   'settings.installTitle': 'Install',
   'settings.installStandalone':
     'You are already using the installed Renovatio. It opens without the browser bar.',
@@ -1120,7 +1168,7 @@ const enUS: Record<TranslationKey, string> = {
     'Renovatio is a support tool inspired by behavioral activation. It does not replace psychotherapy, medical assessment or medication. If the lack of pleasure persists for weeks or comes with hopelessness, seek professional help.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'The video that inspired Renovatio',
-  'settings.version': 'Renovatio 1.0 · built to work offline',
+  'settings.version': 'Renovatio 1.1 · built to work offline',
   'settings.resetTitle': 'Data erased.',
   'settings.resetDesc': 'Renovatio starts over, as if for the first time.',
   'language.switchAria': 'Choose language',
@@ -1528,6 +1576,46 @@ const enUS: Record<TranslationKey, string> = {
   'today.descriptionLead': 'Today does not need to be grand.',
   'today.descriptionEm': 'It needs to be noticed.',
   'today.enableReminders': 'Turn on reminders',
+  'backup.exportEyebrow': 'Encrypted backup',
+  'backup.exportTitle': 'Protect and export',
+  'backup.exportLede':
+    'Create a password to encrypt the backup. Keep it safe: without it, the file cannot be opened.',
+  'backup.importEyebrow': 'Restore backup',
+  'backup.importTitle': 'Import encrypted backup',
+  'backup.importLede':
+    'Choose a .renovatio file and enter the password used when exporting it.',
+  'backup.password': 'Backup password',
+  'backup.passwordPlaceholder': 'At least 8 characters',
+  'backup.confirmPassword': 'Confirm password',
+  'backup.confirmPlaceholder': 'Repeat the password',
+  'backup.showPassword': 'Show password',
+  'backup.hidePassword': 'Hide password',
+  'backup.securityTitle': 'Encryption on this device',
+  'backup.securityNote':
+    'AES-256-GCM with PBKDF2-SHA-256 (310,000 iterations). The file is created locally and nothing is sent to servers.',
+  'backup.warning':
+    'Keep the password safe. Without it, the backup cannot be recovered.',
+  'backup.fileLabel': 'Backup file',
+  'backup.chooseFile': 'Choose a .renovatio file',
+  'backup.fileHelp':
+    'Select a backup exported by Renovatio. Importing replaces the current data.',
+  'backup.exportSubmit': 'Export backup',
+  'backup.importSubmit': 'Import and replace',
+  'backup.importWarning':
+    'Importing replaces all micro-tasks, reflections and good gestures on this device.',
+  'backup.errorPasswordShort': 'Use a password with at least 8 characters.',
+  'backup.errorPasswordMismatch': 'The passwords do not match.',
+  'backup.errorNoFile': 'Choose a valid backup file.',
+  'backup.errorDecrypt':
+    'Could not open the backup. Check the password and the file.',
+  'backup.errorCrypto':
+    'This browser does not offer secure encryption. Use an up-to-date browser over HTTPS.',
+  'backup.errorGeneric': 'Could not complete the operation. Try again.',
+  'backup.exportedTitle': 'Encrypted backup exported.',
+  'backup.exportedDesc': 'Keep the file and password in safe places.',
+  'backup.importedTitle': 'Backup restored.',
+  'backup.importedDesc':
+    'The backup data replaced the data on this device.',
 }
 
 export const translations = {

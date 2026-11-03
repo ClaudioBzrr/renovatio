@@ -1,74 +1,74 @@
 # Renovatio
 
-**Pequenos gestos para voltar a sentir / Small steps to feel again.**
+**Small steps to feel again.**
 
-Renovatio é uma PWA bilíngue (pt-BR / en-US) para organizar micro-tarefas com horário, treinar a atenção para o que foi minimamente bom e registrar três bons gestos por dia. A proposta é inspirada no vídeo [“É por isso que você não sente prazer em nada (e como voltar a sentir)”](https://www.youtube.com/watch?v=aw3ksUsDVEE), do canal **Saúde da Mente**.
-
-Renovatio is a bilingual PWA (pt-BR / en-US) for scheduling micro-tasks, training attention to what was minimally good and recording three good gestures a day.
+Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what was minimally good and recording three good gestures a day. It is inspired by the video [“É por isso que você não sente prazer em nada (e como voltar a sentir)”](https://www.youtube.com/watch?v=aw3ksUsDVEE), from the **Saúde da Mente** channel.
 
 - **App:** https://claudiobzrr.github.io/renovatio/
-- **Repositório:** https://github.com/ClaudioBzrr/renovatio
-- **Português:** [docs/README.pt-BR.md](docs/README.pt-BR.md)
-- **English:** [docs/README.en-US.md](docs/README.en-US.md)
+- **Repository:** https://github.com/ClaudioBzrr/renovatio
+- **English documentation:** [docs/README.md](docs/README.md)
+- **Portuguese documentation:** [docs/README.pt-BR.md](docs/README.pt-BR.md)
 
-> Renovatio é uma ferramenta de apoio inspirada em ativação comportamental. Não diagnostica, não trata e não substitui psicoterapia, avaliação médica, medicação ou apoio de emergência. Em crise, ligue **188 (CVV, 24h)** ou **192 (SAMU)**.
->
 > Renovatio is a support tool inspired by behavioral activation. It does not diagnose, treat or replace psychotherapy, medical assessment, medication or emergency support. In a crisis, call **188 (CVV, Brazil, 24h)** or **192 (SAMU)**.
 
-## Destaques / Highlights
+## Highlights
 
-- **Dois idiomas completos:** interface, notificações, datas, sugestões, método e documentação em pt-BR e en-US. O app detecta o idioma do navegador e permite trocar no onboarding ou nos Ajustes.
-- **Two complete languages:** UI, notifications, dates, suggestions, method and documentation in pt-BR and en-US. The app detects the browser language and lets you switch during onboarding or in Settings.
-- **Micro-tarefas com horário:** 1 a 3 por dia, dias da semana, lembretes e modo presença (2 min de visualização + 1 min de sentidos).
-- **Reflexão obrigatória:** concluir uma micro-tarefa exige escrever o que foi minimamente bom, com dica anti-damping.
-- **Três bons gestos por dia:** gentileza, conexão e realização, com relato obrigatório e histórico.
-- **PWA:** instalável, offline, manifest, service worker, ícones e notificações locais.
-- **Privacidade:** sem conta, sem nuvem e sem rastreamento; tudo fica no `localStorage` do aparelho, com exportação em JSON.
+- **Two complete languages:** English and Brazilian Portuguese across the interface, dates, notifications, suggestions, method page and documentation. The app detects the browser language and allows switching during onboarding or in Settings.
+- **Micro-tasks with a time:** one to three per day, weekdays, local reminders and presence mode (2 minutes of visualization + 1 minute of senses).
+- **Required reflection:** completing a micro-task requires writing what was minimally good, with an anti-damping prompt.
+- **Three good gestures a day:** kindness, connection and accomplishment, with required reporting and history.
+- **PWA:** installable, offline, manifest, service worker, icons and local notifications.
+- **Encrypted backups:** AES-256-GCM with PBKDF2-SHA-256 and a user-chosen password. No plaintext JSON export.
+- **Privacy:** no account, no cloud and no tracking; everything stays in the device’s `localStorage`.
 
-## Rodar / Run
+## Quick start
 
-Requisitos: Node.js 22.12+.
+Requirements: Node.js 22.12+.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abra `http://localhost:5173/renovatio/`. A versão de produção:
+Open `http://localhost:5173/renovatio/`.
+
+Production build:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-O build fica em `dist/`. O projeto usa a base `/renovatio/` para o GitHub Pages.
+The build is written to `dist/`. The project uses the `/renovatio/` base path for GitHub Pages.
+
+## Documentation
+
+- [English documentation](docs/README.md)
+- [Portuguese documentation](docs/README.pt-BR.md)
+- [Contributing and commit convention](CONTRIBUTING.md)
 
 ## GitHub Pages
 
-O deploy é feito por GitHub Actions em cada push para `main` (`.github/workflows/deploy.yml`). A página fica em:
+The site is deployed by GitHub Actions on every push to `main` using `.github/workflows/deploy.yml`:
 
 **https://claudiobzrr.github.io/renovatio/**
 
-O Pages precisa estar configurado com **Source: GitHub Actions** no repositório. O workflow faz `npm ci`, `npm run build`, publica `dist/` e usa `actions/deploy-pages`.
+The Pages source is configured as **GitHub Actions**. The workflow runs `npm ci`, `npm run build`, uploads `dist/` and deploys it.
 
-## Testes / Tests
+## Tests
 
-Com `npm run build` e `npm run preview` em um terminal:
+With the production preview running:
 
 ```bash
 npm run test:e2e
 ```
 
-O teste de fumaça cobre reflexão obrigatória, bons gestos, edição de tarefa, notificações, service worker, offline, manifest, troca de idioma e persistência da escolha.
+The Playwright smoke test covers required reflection, good gestures, task editing, notifications, service worker, offline reload, manifest, language switching and encrypted backup export/import.
 
-## Segurança / Safety
-
-A perda persistente de prazer pode ser um sintoma de depressão, burnout, luto, ansiedade, uso de substâncias, efeitos de medicamentos e outras condições. Procure avaliação profissional se isso durar semanas ou vier com alterações de sono, apetite, energia, isolamento, desesperança ou pensamentos de morte.
+## Safety
 
 Persistent loss of pleasure can be a symptom of depression, burnout, grief, anxiety, substance use, medication effects and other conditions. Seek professional assessment if it lasts for weeks or comes with changes in sleep, appetite, energy, isolation, hopelessness or thoughts of death.
 
-## Créditos / Credits
+## Credits
 
-Conteúdo inspirado no vídeo do canal **Saúde da Mente**. Renovatio é um projeto independente, sem vínculo com o canal. As decisões de produto, os textos e a implementação são deste projeto.
-
-Content inspired by the **Saúde da Mente** channel video. Renovatio is an independent project, not affiliated with the channel.
+The video content and channel brand belong to the **Saúde da Mente** channel. Renovatio is an independent project, not affiliated with the channel. Product decisions, texts and implementation are ours.

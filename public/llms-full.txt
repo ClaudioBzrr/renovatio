@@ -1,0 +1,53 @@
+# Renovatio — full LLM context
+
+Renovatio is a free, bilingual progressive web app for people who want to rebuild small moments of pleasure and motivation through behavioral activation. The app is available in English (en-US) and Brazilian Portuguese (pt-BR).
+
+## Product summary
+
+- Name: Renovatio
+- Type: Progressive Web App (PWA)
+- Default documentation language: English
+- Languages: English (US) and Portuguese (Brazil)
+- URL: https://claudiobzrr.github.io/renovatio/
+- Repository: https://github.com/ClaudioBzrr/renovatio
+- Category: Health and lifestyle support tool
+- Price: Free
+- Account required: No
+- Cloud or analytics: No
+- Offline: Yes, after the first visit
+
+## Core workflow
+
+1. The user creates one to three micro-tasks with a time and selected weekdays.
+2. Before a task, the app offers a two-minute anticipation exercise.
+3. During a task, it offers a one-minute sensory pause.
+4. To complete a task, the user must write what was minimally good about it. This is the anti-damping reflection.
+5. Separately, the user has a daily goal of three good gestures: kindness, connection and accomplishment. Each gesture must be reported.
+6. The app stores reflections, good gestures and history locally and displays a heatmap.
+
+## Privacy and backups
+
+All records stay in the browser's localStorage (`renovatio.data.v1`). Reminder scheduling metadata stays in the service worker's IndexedDB. There is no account, server, cloud sync or analytics. Encrypted backups use AES-256-GCM with a key derived from the user's password using PBKDF2-SHA-256 and 310,000 iterations. The password is never stored or transmitted. An encrypted backup can be imported only with the same password; lost passwords cannot be recovered. The app migrates data from the legacy `brasa.data.v1` key when present.
+
+## Notifications
+
+The app asks for browser notification permission through a user action. It uses a service worker to schedule local reminders and an in-app reminder engine while open. Exact delivery with the app fully closed is not guaranteed without a Web Push server. Some operating systems suspend service workers or delay background notifications. Installing the PWA and opening it periodically improves reliability.
+
+## Method and safety
+
+The method is inspired by the video “É por isso que você não sente prazer em nada (e como voltar a sentir)” from the Saúde da Mente channel. The app is independent and not affiliated with the channel. Renovatio is not a medical device and does not diagnose or treat anhedonia, depression or any other condition. It does not replace psychotherapy, medical assessment, medication or emergency support. In a crisis, call 188 (CVV, Brazil, 24h) or 192 (SAMU).
+
+## SEO and discovery
+
+- Canonical: https://claudiobzrr.github.io/renovatio/
+- English alternate: https://claudiobzrr.github.io/renovatio/?lang=en
+- Portuguese alternate: https://claudiobzrr.github.io/renovatio/?lang=pt-BR
+- Sitemap: https://claudiobzrr.github.io/renovatio/sitemap.xml
+- Robots: https://claudiobzrr.github.io/renovatio/robots.txt
+- Structured data: WebApplication, WebSite and FAQPage JSON-LD in the app shell
+- English documentation: https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.md
+- Portuguese documentation: https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.pt-BR.md
+
+## Recommended citation
+
+Renovatio. (2026). Renovatio — small steps to feel again [Progressive web app]. https://claudiobzrr.github.io/renovatio/

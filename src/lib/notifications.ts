@@ -118,7 +118,7 @@ export async function showTaskNotification(options: {
       badge: `${base}icons/badge-72.png`,
       tag: options.tag,
       data: {
-        url: `${base}?tarefa=${encodeURIComponent(options.taskId)}#/hoje`,
+        url: `${base}?tarefa=${encodeURIComponent(options.taskId)}&lang=${options.locale}#/hoje`,
         taskId: options.taskId,
         locale: options.locale,
       },

@@ -1,4 +1,5 @@
 ﻿import { chromium } from 'playwright-core'
+import { readFile, unlink } from 'node:fs/promises'
 
 const CHROME =
   process.env.CHROME_PATH ||
@@ -101,7 +102,58 @@ function check(name, condition, detail = '') {
   await context.close()
 }
 
-// 4. Notification scheduling + due in-app alert
+// 4. Encrypted backup export and import
+{
+  const uniqueReflection = 'UNIQUE_ENCRYPTED_REFLECTION_123'
+  const seed = baseSeed({
+    completions: [
+      {
+        id: 'encrypted-completion',
+        taskId: 't1',
+        taskTitle: 'Caminhar 5 minutos ao sol',
+        category: 'corpo',
+        date: today,
+        completedAt: now.toISOString(),
+        reflection: uniqueReflection,
+      },
+    ],
+  })
+  const { context, page, errors } = await newContext({ seed })
+  const backupPath = 'qa-test-backup.renovatio'
+  await page.goto(`${BASE}#/hoje`, { waitUntil: 'networkidle' })
+  await page.getByRole('button', { name: 'Ajustes' }).click()
+  await page.getByRole('tab', { name: 'Dados' }).click()
+  await page.getByRole('button', { name: 'Exportar backup criptografado' }).click()
+  await page.locator('#backup-password').fill('test-passphrase-123')
+  await page.locator('#backup-confirmation').fill('test-passphrase-123')
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.getByRole('button', { name: 'Exportar backup', exact: true }).click(),
+  ])
+  await download.saveAs(backupPath)
+  const encrypted = await readFile(backupPath, 'utf8')
+  check('encrypted backup uses the expected format', encrypted.includes('"format": "renovatio-encrypted-backup"'))
+  check('encrypted backup does not contain plaintext', !encrypted.includes(uniqueReflection))
+  check('encrypted backup has a payload', encrypted.includes('"payload"'))
+  await page.waitForTimeout(300)
+  await page.getByRole('button', { name: 'Ajustes' }).click()
+  await page.getByRole('tab', { name: 'Dados' }).click()
+  await page.getByRole('button', { name: 'Importar backup criptografado' }).click()
+  await page.locator('#backup-file').setInputFiles(backupPath)
+  await page.locator('#backup-password').fill('test-passphrase-123')
+  await page.getByRole('button', { name: 'Importar e substituir' }).click()
+  await page.waitForTimeout(900)
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem('renovatio.data.v1')))
+  check(
+    'encrypted backup imports correctly',
+    restored.completions.some((item) => item.reflection === uniqueReflection),
+  )
+  check('no console errors (encrypted backup)', errors.length === 0, errors.join(' | '))
+  await unlink(backupPath).catch(() => {})
+  await context.close()
+}
+
+// 5. Notification scheduling + due in-app alert
 {
   const seed = baseSeed({
     tasks: [

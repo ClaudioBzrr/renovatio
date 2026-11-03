@@ -64,6 +64,7 @@ interface AppContextValue {
     input: { type: GoodActionType; description: string; feeling?: string },
   ) => GoodActionResult
   deleteGoodAction: (id: string) => void
+  replaceData: (data: AppData) => void
   resetData: () => void
 }
 
@@ -331,6 +332,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }))
   }, [])
 
+  const replaceData = useCallback((nextData: AppData) => {
+    setData(nextData)
+    saveData(nextData)
+  }, [])
+
   const resetData = useCallback(() => {
     const fresh = createDefaultData()
     setData(fresh)
@@ -353,6 +359,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       addGoodAction,
       updateGoodAction,
       deleteGoodAction,
+      replaceData,
       resetData,
     }),
     [
@@ -369,6 +376,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       addGoodAction,
       updateGoodAction,
       deleteGoodAction,
+      replaceData,
       resetData,
     ],
   )

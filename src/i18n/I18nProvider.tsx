@@ -67,6 +67,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     persistLocale(nextLocale)
     setLocaleState(nextLocale)
     syncDocument(nextLocale)
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href)
+      url.searchParams.set('lang', nextLocale)
+      window.history.replaceState(
+        null,
+        '',
+        `${url.pathname}${url.search}${url.hash}`,
+      )
+    }
   }, [])
 
   const t = useCallback<TranslateFunction>(

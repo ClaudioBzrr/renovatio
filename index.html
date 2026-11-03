@@ -1,41 +1,256 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#f6f1e8" />
     <meta name="color-scheme" content="light" />
-    <title>Renovatio — pequenos gestos / small steps</title>
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Renovatio — small steps to feel again</title>
     <meta
       name="description"
-      content="Micro-tarefas com horário, três bons gestos por dia e um registro do que foi minimamente bom. Small steps to feel again. Uma PWA de apoio à ativação comportamental."
+      content="Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what was minimally good and recording three good gestures a day. Small steps to rekindle pleasure."
     />
+    <meta
+      name="keywords"
+      content="Renovatio, anhedonia, behavioral activation, micro-tasks, good gestures, mental health PWA, pleasure, gratitude, daily routine, bilingual app"
+    />
+    <meta name="author" content="Renovatio" />
     <meta name="application-name" content="Renovatio" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <link rel="canonical" href="https://claudiobzrr.github.io/renovatio/" />
+    <link
+      rel="alternate"
+      hreflang="en"
+      href="https://claudiobzrr.github.io/renovatio/?lang=en"
+    />
+    <link
+      rel="alternate"
+      hreflang="pt-BR"
+      href="https://claudiobzrr.github.io/renovatio/?lang=pt-BR"
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://claudiobzrr.github.io/renovatio/"
+    />
+
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Renovatio" />
     <meta name="format-detection" content="telephone=no" />
+
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:title" content="Renovatio — pequenos gestos / small steps" />
+    <meta property="og:site_name" content="Renovatio" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:title" content="Renovatio — small steps to feel again" />
     <meta
       property="og:description"
-      content="Não espere a vontade. Marque um horário. Comece pequeno. Registre o que foi minimamente bom. Small steps to feel again."
+      content="Schedule micro-tasks, notice what was minimally good and record three good gestures a day. A free bilingual PWA inspired by behavioral activation."
     />
     <meta property="og:url" content="https://claudiobzrr.github.io/renovatio/" />
-    <meta property="og:image" content="https://claudiobzrr.github.io/renovatio/og.png" />
+    <meta
+      property="og:image"
+      content="https://claudiobzrr.github.io/renovatio/og.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Renovatio — pequenos gestos / small steps, with an ember flame icon."
+    />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Renovatio — small steps to feel again" />
+    <meta
+      name="twitter:description"
+      content="A free bilingual PWA for micro-tasks, reflections and three good gestures a day."
+    />
+    <meta
+      name="twitter:image"
+      content="https://claudiobzrr.github.io/renovatio/og.png"
+    />
+
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link
+      rel="preload"
+      href="fonts/fraunces-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://claudiobzrr.github.io/renovatio/#app",
+            "name": "Renovatio",
+            "alternateName": [
+              "Renovatio — pequenos gestos",
+              "Renovatio — small steps"
+            ],
+            "url": "https://claudiobzrr.github.io/renovatio/",
+            "description": "Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what was minimally good and recording three good gestures a day. It is inspired by behavioral activation and is not a medical treatment.",
+            "inLanguage": ["en-US", "pt-BR"],
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Requires JavaScript and a modern browser with service worker support.",
+            "isAccessibleForFree": true,
+            "softwareVersion": "1.1.0",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Micro-tasks with time and weekday scheduling",
+              "Local reminders and offline PWA support",
+              "Required reflection after each micro-task",
+              "Daily goal of three good gestures",
+              "History, heatmap and encrypted local backups",
+              "English and Brazilian Portuguese"
+            ],
+            "screenshot": "https://claudiobzrr.github.io/renovatio/og.png",
+            "creator": {
+              "@type": "Organization",
+              "name": "Renovatio"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://claudiobzrr.github.io/renovatio/#website",
+            "url": "https://claudiobzrr.github.io/renovatio/",
+            "name": "Renovatio",
+            "inLanguage": ["en-US", "pt-BR"],
+            "publisher": {
+              "@id": "https://claudiobzrr.github.io/renovatio/#app"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://claudiobzrr.github.io/renovatio/#faq",
+            "inLanguage": "en-US",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Renovatio?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Renovatio is a free bilingual progressive web app that helps people schedule small daily tasks, reflect on what was minimally good, and record three good gestures a day. It is inspired by behavioral activation."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Renovatio a treatment for anhedonia or depression?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Renovatio is a support tool, not a medical device or treatment. It does not diagnose, treat or replace psychotherapy, medical assessment or medication. Seek professional help if loss of pleasure persists or is accompanied by hopelessness."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Renovatio work offline?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. After the first visit, the app is cached by a service worker and works offline. Data stays on the device."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is my data stored?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "All records stay in the browser's local storage on the device. Encrypted backups use AES-256-GCM with a password chosen by the user. No account, cloud or analytics is used."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is there a Portuguese version?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The app and documentation are available in English and Brazilian Portuguese. Use the language switch or open the URL with ?lang=pt-BR."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do reminders work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Renovatio requests notification permission and schedules local reminders through a service worker. Exact background delivery depends on the browser and operating system because the app does not use a Web Push server."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "HowTo",
+            "@id": "https://claudiobzrr.github.io/renovatio/#howto",
+            "name": "How to use Renovatio",
+            "description": "A short daily practice inspired by behavioral activation: schedule a small task, notice the senses, record what was good, and report three good gestures.",
+            "totalTime": "PT5M",
+            "inLanguage": "en-US",
+            "step": [
+              {
+                "@type": "HowToStep",
+                "name": "Schedule a micro-task",
+                "text": "Create one to three ridiculously small tasks with a time and weekdays."
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Practice presence",
+                "text": "Spend two minutes imagining the task and one minute noticing the senses during it."
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Record what was good",
+                "text": "Write one sentence about what was minimally worthwhile. This is the anti-damping step."
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Report three good gestures",
+                "text": "Record three daily gestures of kindness, connection and accomplishment."
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="padding: 2rem; font-family: sans-serif">
-        Renovatio precisa de JavaScript para funcionar. Seus dados ficam apenas no seu
-        aparelho. / Renovatio needs JavaScript to work. Your data stays on your device.
-      </div>
+      <main style="max-width: 42rem; margin: 4rem auto; padding: 0 1.5rem; font-family: system-ui, sans-serif; line-height: 1.6; color: #241f1a">
+        <h1>Renovatio — small steps to feel again</h1>
+        <p>
+          Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on
+          what was minimally good and recording three good gestures a day.
+        </p>
+        <p>
+          This app needs JavaScript to work. Your data stays on your device. It is a
+          support tool inspired by behavioral activation, not a substitute for
+          professional care.
+        </p>
+        <p>
+          <a href="https://github.com/ClaudioBzrr/renovatio">View the project on GitHub</a>
+          ·
+          <a href="https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.md">English documentation</a>
+          ·
+          <a href="https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.pt-BR.md">Portuguese documentation</a>
+        </p>
+      </main>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>

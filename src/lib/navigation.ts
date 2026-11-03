@@ -25,7 +25,11 @@ export function useHashRoute() {
     }
     window.addEventListener('hashchange', onChange)
     if (!window.location.hash) {
-      window.history.replaceState(null, '', '#/hoje')
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}#/hoje`,
+      )
     }
     return () => window.removeEventListener('hashchange', onChange)
   }, [])

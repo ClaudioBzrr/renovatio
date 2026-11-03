@@ -116,7 +116,7 @@ async function showReminder(reminder: Reminder, at: Date): Promise<void> {
       tag,
       renotify: true,
       data: {
-        url: `${sw.registration.scope}?tarefa=${encodeURIComponent(reminder.taskId)}#/hoje`,
+        url: `${sw.registration.scope}?tarefa=${encodeURIComponent(reminder.taskId)}&lang=${reminder.locale}#/hoje`,
         taskId: reminder.taskId,
         title: reminder.title,
         locale: reminder.locale,
