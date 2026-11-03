@@ -13,6 +13,7 @@ import { GoodActionModal } from './components/GoodActionModal'
 import { SettingsModal } from './components/SettingsModal'
 import { BackupModal, type BackupMode } from './components/BackupModal'
 import { Onboarding } from './pages/Onboarding'
+import { LandingPage } from './pages/LandingPage'
 import { TodayPage } from './pages/TodayPage'
 import { RoutinePage } from './pages/RoutinePage'
 import { GoodActionsPage } from './pages/GoodActionsPage'
@@ -49,7 +50,7 @@ interface ReflectionState {
 }
 
 export function App() {
-  const { data, today } = useApp()
+  const { data, today, replayOnboarding } = useApp()
   const { route, query, navigate } = useHashRoute()
   const { pushToast } = useToast()
   const { t } = useI18n()
@@ -70,6 +71,16 @@ export function App() {
       // O navegador pode negar; os registros continuam no armazenamento local.
     })
   }, [])
+
+  useEffect(() => {
+    if (
+      !data.profile.onboarded &&
+      route !== 'comecar' &&
+      route !== 'inicio'
+    ) {
+      navigate('/inicio')
+    }
+  }, [data.profile.onboarded, navigate, route])
 
   const openPresenceById = useCallback(
     (taskId: string) => {
@@ -227,13 +238,33 @@ export function App() {
   }
 
   if (!data.profile.onboarded) {
+    if (route === 'comecar') {
+      return (
+        <Onboarding
+          onFinish={finishOnboarding}
+          onBackToLanding={() => navigate('/inicio')}
+          onInstall={handleInstall}
+          canInstall={canInstall}
+          isStandalone={isStandalone}
+          isIos={isIos}
+        />
+      )
+    }
     return (
-      <Onboarding
-        onFinish={finishOnboarding}
-        onInstall={handleInstall}
-        canInstall={canInstall}
-        isStandalone={isStandalone}
-        isIos={isIos}
+      <LandingPage
+        isReturning={false}
+        onStart={() => navigate('/comecar')}
+        onOpenApp={() => navigate('/hoje')}
+      />
+    )
+  }
+
+  if (route === 'inicio' || route === 'comecar') {
+    return (
+      <LandingPage
+        isReturning
+        onStart={() => navigate('/hoje')}
+        onOpenApp={() => navigate('/hoje')}
       />
     )
   }
@@ -340,6 +371,11 @@ export function App() {
         onOpenBackup={(mode) => {
           setSettingsOpen(false)
           setBackupMode(mode)
+        }}
+        onReplayOnboarding={() => {
+          replayOnboarding()
+          setSettingsOpen(false)
+          navigate('/comecar')
         }}
       />
 

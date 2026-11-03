@@ -1,8 +1,23 @@
 import { useEffect, useMemo, useState } from 'react'
 
-export type Route = 'hoje' | 'rotina' | 'gestos' | 'historia' | 'metodo'
+export type Route =
+  | 'inicio'
+  | 'comecar'
+  | 'hoje'
+  | 'rotina'
+  | 'gestos'
+  | 'historia'
+  | 'metodo'
 
-const ROUTES: Route[] = ['hoje', 'rotina', 'gestos', 'historia', 'metodo']
+const ROUTES: Route[] = [
+  'inicio',
+  'comecar',
+  'hoje',
+  'rotina',
+  'gestos',
+  'historia',
+  'metodo',
+]
 
 function parseHash(hash: string): { route: Route; query: URLSearchParams } {
   const raw = hash.replace(/^#\/?/, '')

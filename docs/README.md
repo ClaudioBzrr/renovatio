@@ -32,6 +32,7 @@ Switching updates the entire interface, accessibility text, dates (`Intl`), noti
 
 ## What the app does
 
+- **Public landing page:** introduces the project, method and safety before onboarding. Returning users can open the app from it.
 - **Micro-tasks with a time:** create one to three micro-tasks, choose the days of the week and receive a reminder at the set time.
 - **Presence mode:** two minutes of visualization before starting (wanting) and one minute of attention to the senses during the task (liking).
 - **Required reflection:** to complete a micro-task, you must write what was minimally good. This field is the “learning” training and works as anti-damping.
@@ -124,6 +125,7 @@ The public build includes:
 
 There is a Playwright smoke test using the installed Chrome. It covers:
 
+- the landing page and the onboarding flow;
 - completing a micro-task with the required reflection;
 - the third good gesture and goal celebration;
 - editing a micro-task;
@@ -157,7 +159,7 @@ src/
   hooks/         install, online and reminder engine
   i18n/          pt-BR/en-US translations, provider, metadata and notifications
   lib/           dates, storage, notifications and hash routes
-  pages/         Today, Routine, Gestures, History, Method and onboarding
+  pages/         Landing, Today, Routine, Gestures, History, Method and onboarding
   store/         global state persisted in localStorage
   sw.ts          service worker (precache + localized reminders)
   styles.css     complete visual system

@@ -351,7 +351,7 @@ const ptBR = {
     'O Renovatio é uma ferramenta de apoio inspirada em ativação comportamental. Não substitui psicoterapia, avaliação médica ou medicação. Se a falta de prazer persiste por semanas ou vem com desesperança, procure ajuda profissional.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'Vídeo que inspirou o Renovatio',
-  'settings.version': 'Renovatio 1.1.1 · feito para funcionar offline',
+  'settings.version': 'Renovatio 1.2 · feito para funcionar offline',
   'settings.resetTitle': 'Dados apagados.',
   'settings.resetDesc':
     'O Renovatio começa de novo, como se fosse a primeira vez.',
@@ -825,6 +825,80 @@ const ptBR = {
   'method.faqQ6': 'Como funcionam os lembretes?',
   'method.faqA6':
     'Renovatio pede permissão de notificação e agenda lembretes locais por meio de um service worker. A entrega exata em segundo plano depende do navegador e do sistema operacional, porque o app não usa um servidor de Web Push.',
+  'landing.navHow': 'Como funciona',
+  'landing.navSafety': 'Segurança',
+  'landing.navDocs': 'Documentação',
+  'landing.start': 'Começar agora',
+  'landing.openApp': 'Abrir o Renovatio',
+  'landing.eyebrow': 'Pequenos gestos, de novo',
+  'landing.titleLead': 'Voltar a sentir não começa com vontade.',
+  'landing.titleEm': 'Começa com um gesto.',
+  'landing.description':
+    'O Renovatio transforma micro-tarefas com horário, atenção aos sentidos e uma frase sobre o que foi bom em uma rotina possível para reacender o prazer — um gesto de cada vez.',
+  'landing.safety':
+    'Ferramenta de apoio. Não substitui acompanhamento profissional.',
+  'landing.previewEyebrow': 'PRÓXIMO GESTO',
+  'landing.previewTime': '08:00',
+  'landing.previewTask': 'Caminhar 5 minutos ao sol',
+  'landing.previewMeta': 'Corpo · todos os dias',
+  'landing.previewDone': 'Já fiz',
+  'landing.previewPrepare': 'Preparar',
+  'landing.previewRhythm': 'SEU RITMO HOJE',
+  'landing.previewProgress': '2 de 6 gestos',
+  'landing.previewGood': 'TRÊS BONS GESTOS',
+  'landing.previewGoodDesc': 'Elogiei o trabalho de uma colega.',
+  'landing.featuresEyebrow': 'O que você encontra',
+  'landing.featuresTitle': 'Uma rotina pequena, com memória.',
+  'landing.feature1Title': 'Micro-tarefas com horário',
+  'landing.feature1Desc':
+    'Uma a três por dia, com dias da semana e lembretes locais.',
+  'landing.feature2Title': 'Reflexão anti-damping',
+  'landing.feature2Desc':
+    'Para concluir, você escreve o que foi minimamente bom.',
+  'landing.feature3Title': 'Três bons gestos',
+  'landing.feature3Desc':
+    'Gentileza, conexão e realização, reportadas todos os dias.',
+  'landing.feature4Title': 'Privado e offline',
+  'landing.feature4Desc':
+    'Tudo fica no seu aparelho. Backups criptografados.',
+  'landing.methodEyebrow': 'O método em três tempos',
+  'landing.methodTitle': 'Querer. Gostar. Aprender.',
+  'landing.method1Title': 'Querer',
+  'landing.method1Desc': 'Dois minutos de visualização antes do gesto.',
+  'landing.method2Title': 'Gostar',
+  'landing.method2Desc':
+    'Um minuto de atenção aos sentidos durante a tarefa.',
+  'landing.method3Title': 'Aprender',
+  'landing.method3Desc':
+    'Uma frase sobre o que foi minimamente bom.',
+  'landing.videoEyebrow': 'De onde vem',
+  'landing.videoTitle': 'Inspirado em ativação comportamental.',
+  'landing.videoDesc':
+    'A proposta nasce do vídeo “É por isso que você não sente prazer em nada (e como voltar a sentir)”, do canal Saúde da Mente.',
+  'landing.videoLink': 'Assistir ao vídeo',
+  'landing.safetyTitle': 'Cuidado e limites',
+  'landing.safetyText':
+    'O Renovatio não diagnostica, não trata e não substitui psicoterapia, avaliação médica, medicação ou apoio de emergência.',
+  'landing.docsLink': 'Ler a documentação',
+  'landing.finalEyebrow': 'Um gesto de cada vez',
+  'landing.finalTitle': 'Comece com algo que pareça quase bobo.',
+  'landing.finalText':
+    'Escolha uma micro-tarefa, marque um horário e apareça. O resto é consequência.',
+  'landing.finalStart': 'Criar minha rotina',
+  'landing.footer':
+    'Feito para funcionar offline. Sem conta, sem nuvem, sem rastreamento.',
+  'landing.languageNote': 'Disponível em português e inglês.',
+  'landing.returning': 'Você já tem uma rotina.',
+  'landing.returningDesc': 'Abra o Renovatio para continuar de onde parou.',
+  'landing.viewMethod': 'Ver o método',
+  'landing.badge': 'PWA · offline · privado',
+  'landing.stat1': '1–3',
+  'landing.stat1Label': 'micro-tarefas por dia',
+  'landing.stat2': '3',
+  'landing.stat2Label': 'bons gestos por dia',
+  'landing.stat3': '2+1',
+  'landing.stat3Label': 'minutos de presença',
+  'onboarding.backToLanding': 'Voltar à apresentação',
 } as const
 
 export type TranslationKey = keyof typeof ptBR
@@ -1189,7 +1263,7 @@ const enUS: Record<TranslationKey, string> = {
     'Renovatio is a support tool inspired by behavioral activation. It does not replace psychotherapy, medical assessment or medication. If the lack of pleasure persists for weeks or comes with hopelessness, seek professional help.',
   'settings.cvv': 'CVV · 188',
   'settings.video': 'The video that inspired Renovatio',
-  'settings.version': 'Renovatio 1.1.1 · built to work offline',
+  'settings.version': 'Renovatio 1.2 · built to work offline',
   'settings.resetTitle': 'Data erased.',
   'settings.resetDesc': 'Renovatio starts over, as if for the first time.',
   'language.switchAria': 'Choose language',
@@ -1658,6 +1732,79 @@ const enUS: Record<TranslationKey, string> = {
   'method.faqQ6': 'How do reminders work?',
   'method.faqA6':
     'Renovatio requests notification permission and schedules local reminders through a service worker. Exact background delivery depends on the browser and operating system because the app does not use a Web Push server.',
+  'landing.navHow': 'How it works',
+  'landing.navSafety': 'Safety',
+  'landing.navDocs': 'Documentation',
+  'landing.start': 'Get started',
+  'landing.openApp': 'Open Renovatio',
+  'landing.eyebrow': 'Small steps, again',
+  'landing.titleLead': 'Feeling again does not start with motivation.',
+  'landing.titleEm': 'It starts with a gesture.',
+  'landing.description':
+    'Renovatio turns timed micro-tasks, attention to the senses and a sentence about what was good into a possible routine for rekindling pleasure — one gesture at a time.',
+  'landing.safety':
+    'A support tool. It does not replace professional care.',
+  'landing.previewEyebrow': 'NEXT GESTURE',
+  'landing.previewTime': '08:00',
+  'landing.previewTask': 'Walk in the sun for 5 minutes',
+  'landing.previewMeta': 'Body · every day',
+  'landing.previewDone': 'Already did',
+  'landing.previewPrepare': 'Prepare',
+  'landing.previewRhythm': 'YOUR RHYTHM TODAY',
+  'landing.previewProgress': '2 of 6 gestures',
+  'landing.previewGood': 'THREE GOOD GESTURES',
+  'landing.previewGoodDesc': 'I complimented a colleague’s work.',
+  'landing.featuresEyebrow': 'What you get',
+  'landing.featuresTitle': 'A small routine, with memory.',
+  'landing.feature1Title': 'Micro-tasks with a time',
+  'landing.feature1Desc':
+    'One to three a day, with weekdays and local reminders.',
+  'landing.feature2Title': 'Anti-damping reflection',
+  'landing.feature2Desc':
+    'To complete, you write what was minimally good.',
+  'landing.feature3Title': 'Three good gestures',
+  'landing.feature3Desc':
+    'Kindness, connection and accomplishment, reported every day.',
+  'landing.feature4Title': 'Private and offline',
+  'landing.feature4Desc':
+    'Everything stays on your device. Encrypted backups.',
+  'landing.methodEyebrow': 'The method in three beats',
+  'landing.methodTitle': 'Want. Like. Learn.',
+  'landing.method1Title': 'Want',
+  'landing.method1Desc': 'Two minutes of visualization before the gesture.',
+  'landing.method2Title': 'Like',
+  'landing.method2Desc':
+    'One minute of attention to the senses during the task.',
+  'landing.method3Title': 'Learn',
+  'landing.method3Desc': 'One sentence about what was minimally good.',
+  'landing.videoEyebrow': 'Where it comes from',
+  'landing.videoTitle': 'Inspired by behavioral activation.',
+  'landing.videoDesc':
+    'The proposal comes from the video “É por isso que você não sente prazer em nada (e como voltar a sentir)”, from the Saúde da Mente channel.',
+  'landing.videoLink': 'Watch the video',
+  'landing.safetyTitle': 'Care and limits',
+  'landing.safetyText':
+    'Renovatio does not diagnose, treat or replace psychotherapy, medical assessment, medication or emergency support.',
+  'landing.docsLink': 'Read the documentation',
+  'landing.finalEyebrow': 'One gesture at a time',
+  'landing.finalTitle': 'Start with something that feels almost silly.',
+  'landing.finalText':
+    'Choose a micro-task, set a time and show up. The rest follows.',
+  'landing.finalStart': 'Create my routine',
+  'landing.footer':
+    'Built to work offline. No account, no cloud, no tracking.',
+  'landing.languageNote': 'Available in Portuguese and English.',
+  'landing.returning': 'You already have a routine.',
+  'landing.returningDesc': 'Open Renovatio to continue where you left off.',
+  'landing.viewMethod': 'See the method',
+  'landing.badge': 'PWA · offline · private',
+  'landing.stat1': '1–3',
+  'landing.stat1Label': 'micro-tasks a day',
+  'landing.stat2': '3',
+  'landing.stat2Label': 'good gestures a day',
+  'landing.stat3': '2+1',
+  'landing.stat3Label': 'minutes of presence',
+  'onboarding.backToLanding': 'Back to presentation',
 }
 
 export const translations = {

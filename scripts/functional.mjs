@@ -49,7 +49,29 @@ function check(name, condition, detail = '') {
   console.log(`${condition ? 'PASS' : 'FAIL'} ${name}${detail ? ` — ${detail}` : ''}`)
 }
 
-// 1. Complete a micro-task with a reflection
+// 1. Landing page before onboarding
+{
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'en-US' })
+  const page = await context.newPage()
+  const errors = []
+  page.on('console', (msg) => { if (msg.type() === 'error') errors.push(msg.text()) })
+  page.on('pageerror', (err) => errors.push(err.message))
+  await page.goto(`${BASE}#/hoje`, { waitUntil: 'networkidle' })
+  await page.waitForTimeout(500)
+  check('landing shown before onboarding', await page.locator('.landing').isVisible())
+  check('landing route normalized', new URL(page.url()).hash === '#/inicio')
+  await page.getByRole('button', { name: 'Get started' }).first().click()
+  await page.waitForTimeout(350)
+  check('onboarding starts from landing', await page.locator('.onboarding').isVisible())
+  check('onboarding route', new URL(page.url()).hash === '#/comecar')
+  await page.getByRole('button', { name: 'Back to presentation' }).click()
+  await page.waitForTimeout(350)
+  check('back to landing', new URL(page.url()).hash === '#/inicio')
+  check('no console errors (landing)', errors.length === 0, errors.join(' | '))
+  await context.close()
+}
+
+// 2. Complete a micro-task with a reflection
 {
   const { context, page, errors } = await newContext()
   await page.goto(`${BASE}#/hoje`, { waitUntil: 'networkidle' })

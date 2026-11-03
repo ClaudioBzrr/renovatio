@@ -32,6 +32,7 @@ A troca atualiza toda a interface, os textos de acessibilidade, as datas (`Intl`
 
 ## O que o app faz
 
+- **Landing page pública:** apresenta o projeto, o método e a segurança antes do onboarding. Usuários existentes podem abrir o app por ela.
 - **Micro-tarefas com horário:** crie de uma a três micro-tarefas, escolha os dias da semana e receba um lembrete na hora marcada.
 - **Modo presença:** dois minutos de visualização antes de começar (querer) e um minuto de atenção aos sentidos durante a tarefa (gostar).
 - **Reflexão obrigatória:** para concluir uma micro-tarefa, é preciso escrever o que foi minimamente bom. O campo é o treino de “aprender” e funciona como anti-damping.
@@ -124,6 +125,7 @@ O build público inclui:
 
 Há um teste de fumaça com Playwright usando o Chrome instalado. Ele cobre:
 
+- a landing page e o fluxo de onboarding;
 - conclusão de micro-tarefa com reflexão obrigatória;
 - terceiro bom gesto e celebração da meta;
 - edição de micro-tarefa;
@@ -157,7 +159,7 @@ src/
   hooks/         instalação, online e motor de lembretes
   i18n/          traduções pt-BR/en-US, provider, metadados e notificações
   lib/           datas, armazenamento, notificações e rotas por hash
-  pages/         Hoje, Rotina, Gestos, História, Método e onboarding
+  pages/         Landing, Hoje, Rotina, Gestos, História, Método e onboarding
   store/         estado global persistido em localStorage
   sw.ts          service worker (precache + lembretes localizados)
   styles.css     sistema visual completo

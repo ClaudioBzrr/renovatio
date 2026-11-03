@@ -1,7 +1,7 @@
 {
   "name": "renovatio",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "description": "Renovatio — pequenos gestos para reacender o prazer. Small steps to feel again. Uma PWA bilíngue de apoio à ativação comportamental.",
   "scripts": {

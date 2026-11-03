@@ -31,6 +31,7 @@ import type { TranslationKey } from '../i18n/translations'
 
 interface OnboardingProps {
   onFinish: () => void
+  onBackToLanding: () => void
   onInstall: () => void
   canInstall: boolean
   isStandalone: boolean
@@ -49,6 +50,7 @@ const STARTERS: {
 
 export function Onboarding({
   onFinish,
+  onBackToLanding,
   onInstall,
   canInstall,
   isStandalone,
@@ -182,7 +184,13 @@ export function Onboarding({
               <ArrowLeft size={16} /> {t('common.back')}
             </button>
           ) : (
-            <span />
+            <button
+              type="button"
+              className="onboarding__back"
+              onClick={onBackToLanding}
+            >
+              <ArrowLeft size={16} /> {t('onboarding.backToLanding')}
+            </button>
           )}
           <div className="onboarding__top-actions">
             <LanguageSwitch compact />

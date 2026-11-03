@@ -44,6 +44,7 @@ interface SettingsModalProps {
   isIos: boolean
   onOpenMethod: () => void
   onOpenBackup: (mode: BackupMode) => void
+  onReplayOnboarding: () => void
 }
 
 const TABS: { key: SettingsTab; labelKey: TranslationKey; icon: typeof UserRound }[] = [
@@ -62,14 +63,9 @@ export function SettingsModal({
   isIos,
   onOpenMethod,
   onOpenBackup,
+  onReplayOnboarding,
 }: SettingsModalProps) {
-  const {
-    data,
-    updateProfile,
-    updateSettings,
-    resetData,
-    replayOnboarding,
-  } = useApp()
+  const { data, updateProfile, updateSettings, resetData } = useApp()
   const { pushToast } = useToast()
   const { t, locale } = useI18n()
   const [tab, setTab] = useState<SettingsTab>(initialTab)
@@ -266,10 +262,7 @@ export function SettingsModal({
             <button
               type="button"
               className="settings-row-button"
-              onClick={() => {
-                replayOnboarding()
-                onClose()
-              }}
+              onClick={onReplayOnboarding}
             >
               <RotateCcw size={17} strokeWidth={1.8} />
               {t('settings.replay')}

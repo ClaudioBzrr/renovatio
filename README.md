@@ -13,6 +13,7 @@ Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what
 
 ## Highlights
 
+- **Public landing page:** a presentation of the project, method, safety and visual preview before onboarding. Returning users can open the app directly from it.
 - **Two complete languages:** English and Brazilian Portuguese across the interface, dates, notifications, suggestions, method page and documentation. The app detects the browser language and allows switching during onboarding or in Settings.
 - **Micro-tasks with a time:** one to three per day, weekdays, local reminders and presence mode (2 minutes of visualization + 1 minute of senses).
 - **Required reflection:** completing a micro-task requires writing what was minimally good, with an anti-damping prompt.
@@ -63,7 +64,7 @@ With the production preview running:
 npm run test:e2e
 ```
 
-The Playwright smoke test covers required reflection, good gestures, task editing, notifications, service worker, offline reload, manifest, language switching and encrypted backup export/import.
+The Playwright smoke test covers the landing page, onboarding flow, required reflection, good gestures, task editing, notifications, service worker, offline reload, manifest, language switching and encrypted backup export/import.
 
 ## Safety
 
