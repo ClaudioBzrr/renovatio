@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-ssr/
+screens/
+*.local
+*.tsbuildinfo
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+qa/
+*.out

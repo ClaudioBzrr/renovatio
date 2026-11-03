@@ -1,0 +1,32 @@
+{
+  "name": "renovatio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Renovatio — pequenos gestos para reacender o prazer. Small steps to feel again. Uma PWA bilíngue de apoio à ativação comportamental.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "icons": "node scripts/make-icons.mjs",
+    "test:e2e": "node scripts/functional.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^1.66.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "playwright-core": "^1.64.1",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.5",
+    "vite-plugin-pwa": "^2.0.0",
+    "workbox-precaching": "^7.4.1"
+  }
+}
