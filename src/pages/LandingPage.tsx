@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -69,6 +70,7 @@ export function LandingPage({
   onOpenApp,
 }: LandingPageProps) {
   const { t, locale } = useI18n()
+  const rootRef = useRef<HTMLDivElement>(null)
   const primaryAction = isReturning ? onOpenApp : onStart
   const primaryLabel = isReturning ? t('landing.openApp') : t('landing.start')
   const docsUrl =
@@ -76,12 +78,38 @@ export function LandingPage({
       ? 'https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.pt-BR.md'
       : 'https://github.com/ClaudioBzrr/renovatio/blob/main/docs/README.md'
 
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const nodes = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]'))
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      nodes.forEach((node) => node.classList.add('is-visible'))
+      return
+    }
+    root.classList.add('reveal-ready')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -7% 0px' },
+    )
+    nodes.forEach((node) => observer.observe(node))
+    return () => observer.disconnect()
+  }, [])
+
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
-    <div className="landing">
+    <div className="landing" ref={rootRef}>
       <header className="landing__nav">
         <Brand />
         <nav className="landing__nav-links" aria-label={t('nav.main')}>
@@ -150,6 +178,10 @@ export function LandingPage({
 
           <div className="landing__visual" aria-hidden="true">
             <div className="landing__visual-glow" />
+            <span className="landing__ember landing__ember--1" />
+            <span className="landing__ember landing__ember--2" />
+            <span className="landing__ember landing__ember--3" />
+            <span className="landing__ember landing__ember--4" />
             <div className="landing__mock-next">
               <div className="landing__mock-top">
                 <span>{t('landing.previewEyebrow')}</span>
@@ -168,7 +200,7 @@ export function LandingPage({
 
             <div className="landing__mock-rhythm">
               <span>{t('landing.previewRhythm')}</span>
-              <ProgressRing value={2 / 6} size={84} stroke={5}>
+              <ProgressRing value={2 / 6} size={84} stroke={5} animate>
                 <strong>33%</strong>
               </ProgressRing>
               <strong>{t('landing.previewProgress')}</strong>
@@ -187,15 +219,20 @@ export function LandingPage({
         </section>
 
         <section id="como-funciona" className="landing__section">
-          <header className="landing__section-head">
+          <header className="landing__section-head" data-reveal>
             <p className="eyebrow">{t('landing.featuresEyebrow')}</p>
             <h2>{t('landing.featuresTitle')}</h2>
           </header>
           <div className="landing__features">
-            {FEATURES.map((feature) => {
+            {FEATURES.map((feature, index) => {
               const Icon = feature.icon
               return (
-                <article key={feature.titleKey} className="landing__feature">
+                <article
+                  key={feature.titleKey}
+                  className="landing__feature"
+                  data-reveal
+                  style={{ animationDelay: `${index * 70}ms` }}
+                >
                   <span className="landing__feature-icon">
                     <Icon size={21} strokeWidth={1.8} />
                   </span>
@@ -207,7 +244,7 @@ export function LandingPage({
           </div>
         </section>
 
-        <section id="metodo" className="landing__method">
+        <section id="metodo" className="landing__method" data-reveal>
           <div className="landing__method-copy">
             <p className="eyebrow">{t('landing.methodEyebrow')}</p>
             <h2>{t('landing.methodTitle')}</h2>
@@ -230,7 +267,7 @@ export function LandingPage({
         </section>
 
         <section className="landing__source">
-          <div className="landing__source-copy">
+          <div className="landing__source-copy" data-reveal>
             <p className="eyebrow">{t('landing.videoEyebrow')}</p>
             <h2>{t('landing.videoTitle')}</h2>
             <p>{t('landing.videoDesc')}</p>
@@ -242,14 +279,14 @@ export function LandingPage({
               {t('landing.videoLink')} <ArrowUpRight size={15} />
             </a>
           </div>
-          <div className="landing__quote-card">
+          <div className="landing__quote-card" data-reveal style={{ animationDelay: '90ms' }}>
             <Quote size={22} strokeWidth={1.6} />
             <p>{t('method.pullquote')}</p>
             <small>Renovatio · {t('landing.methodEyebrow')}</small>
           </div>
         </section>
 
-        <section id="seguranca" className="landing__safety-section">
+        <section id="seguranca" className="landing__safety-section" data-reveal>
           <div>
             <p className="eyebrow">{t('landing.safetyTitle')}</p>
             <h2>{t('landing.safetyText')}</h2>
@@ -264,7 +301,7 @@ export function LandingPage({
           </div>
         </section>
 
-        <section className="landing__final">
+        <section className="landing__final" data-reveal>
           <span className="landing__final-mark">
             <BrandMark size={50} />
           </span>

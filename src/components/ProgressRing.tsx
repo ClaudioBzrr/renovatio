@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { useI18n } from '../i18n/I18nProvider'
 
 interface ProgressRingProps {
@@ -8,6 +8,7 @@ interface ProgressRingProps {
   children?: ReactNode
   tone?: 'ember' | 'light' | 'moss'
   label?: string
+  animate?: boolean
 }
 
 export function ProgressRing({
@@ -17,9 +18,22 @@ export function ProgressRing({
   children,
   tone = 'ember',
   label,
+  animate = false,
 }: ProgressRingProps) {
   const { t } = useI18n()
-  const clamped = Math.min(1, Math.max(0, value))
+  const [displayValue, setDisplayValue] = useState(animate ? 0 : value)
+
+  useEffect(() => {
+    if (!animate) {
+      setDisplayValue(value)
+      return
+    }
+    const frame = window.requestAnimationFrame(() => setDisplayValue(value))
+    return () => window.cancelAnimationFrame(frame)
+  }, [animate, value])
+
+  const clamped = Math.min(1, Math.max(0, displayValue))
+  const targetValue = Math.min(1, Math.max(0, value))
   const radius = (size - stroke) / 2
   const circumference = 2 * Math.PI * radius
   const offset = circumference * (1 - clamped)
@@ -29,7 +43,7 @@ export function ProgressRing({
       className={`progress-ring progress-ring--${tone}`}
       style={{ width: size, height: size }}
       role="img"
-      aria-label={label ?? t('progress.complete', { n: Math.round(clamped * 100) })}
+      aria-label={label ?? t('progress.complete', { n: Math.round(targetValue * 100) })}
     >
       <svg width={size} height={size} aria-hidden="true">
         <circle

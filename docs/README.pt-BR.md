@@ -33,7 +33,7 @@ A troca atualiza toda a interface, os textos de acessibilidade, as datas (`Intl`
 
 ## O que o app faz
 
-- **Landing page pública:** apresenta o projeto, o método e a segurança antes do onboarding. Usuários existentes podem abrir o app por ela.
+- **Landing page pública:** apresenta o projeto, o método e a segurança antes do onboarding, com animações sutis e suporte a movimento reduzido. Usuários existentes podem abrir o app por ela.
 - **Micro-tarefas com horário:** crie de uma a três micro-tarefas, escolha os dias da semana e receba um lembrete na hora marcada.
 - **Modo presença:** dois minutos de visualização antes de começar (querer) e um minuto de atenção aos sentidos durante a tarefa (gostar).
 - **Reflexão obrigatória:** para concluir uma micro-tarefa, é preciso escrever o que foi minimamente bom. O campo é o treino de “aprender” e funciona como anti-damping.

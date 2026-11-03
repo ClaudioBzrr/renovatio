@@ -14,7 +14,7 @@ Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what
 
 ## Highlights
 
-- **Public landing page:** a presentation of the project, method, safety and visual preview before onboarding. Returning users can open the app directly from it.
+- **Public landing page:** a presentation of the project, method, safety and visual preview before onboarding, with subtle motion and reduced-motion support. Returning users can open the app directly from it.
 - **Two complete languages:** English and Brazilian Portuguese across the interface, dates, notifications, suggestions, method page and documentation. The app detects the browser language and allows switching during onboarding or in Settings.
 - **Micro-tasks with a time:** one to three per day, weekdays, local reminders and presence mode (2 minutes of visualization + 1 minute of senses).
 - **Required reflection:** completing a micro-task requires writing what was minimally good, with an anti-damping prompt.

@@ -33,7 +33,7 @@ Switching updates the entire interface, accessibility text, dates (`Intl`), noti
 
 ## What the app does
 
-- **Public landing page:** introduces the project, method and safety before onboarding. Returning users can open the app from it.
+- **Public landing page:** introduces the project, method and safety before onboarding, with subtle motion and reduced-motion support. Returning users can open the app from it.
 - **Micro-tasks with a time:** create one to three micro-tasks, choose the days of the week and receive a reminder at the set time.
 - **Presence mode:** two minutes of visualization before starting (wanting) and one minute of attention to the senses during the task (liking).
 - **Required reflection:** to complete a micro-task, you must write what was minimally good. This field is the “learning” training and works as anti-damping.
