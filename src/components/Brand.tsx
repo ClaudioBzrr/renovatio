@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { useI18n } from '../i18n/I18nProvider'
 
 interface BrandProps {
@@ -13,6 +14,8 @@ export function BrandMark({
   size?: number
   className?: string
 }) {
+  const gradientId = `brand-ember-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
+
   return (
     <svg
       width={size}
@@ -25,7 +28,7 @@ export function BrandMark({
     >
       <defs>
         <linearGradient
-          id="brand-ember"
+          id={gradientId}
           x1="180"
           y1="120"
           x2="330"
@@ -40,7 +43,7 @@ export function BrandMark({
       <rect width="512" height="512" rx="120" fill="#201b17" />
       <path
         d="M256 88C300 170 356 218 356 308C356 388 308 436 256 436C204 436 156 388 156 308C156 236 196 194 232 136C238 190 258 214 276 232C288 202 280 148 256 88Z"
-        fill="url(#brand-ember)"
+        fill={`url(#${gradientId})`}
       />
       <path
         d="M256 300c14 18 28 30 28 52 0 22-12 38-28 38s-28-16-28-38c0-22 14-34 28-52Z"

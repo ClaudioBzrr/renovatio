@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react'
 import { useI18n } from '../i18n/I18nProvider'
 
@@ -46,14 +47,34 @@ function ToastCard({
 }) {
   const { t } = useI18n()
   const timerRef = useRef<number | null>(null)
+  const remainingRef = useRef(toast.duration)
+  const deadlineRef = useRef(0)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const paused = hovered || focused
 
   useEffect(() => {
     if (toast.duration <= 0) return
-    timerRef.current = window.setTimeout(() => onDismiss(toast.id), toast.duration)
+
+    // WCAG 2.2.1: give people time to read by pausing the auto-dismiss timer
+    // while the pointer or keyboard focus is inside the toast.
+    if (paused) {
+      if (deadlineRef.current) {
+        remainingRef.current = Math.max(0, deadlineRef.current - Date.now())
+      }
+      return
+    }
+
+    if (remainingRef.current <= 0) remainingRef.current = toast.duration
+    deadlineRef.current = Date.now() + remainingRef.current
+    timerRef.current = window.setTimeout(
+      () => onDismiss(toast.id),
+      remainingRef.current,
+    )
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current)
     }
-  }, [onDismiss, toast.duration, toast.id])
+  }, [onDismiss, paused, toast.duration, toast.id])
 
   const Icon =
     toast.tone === 'success'
@@ -63,7 +84,17 @@ function ToastCard({
         : Info
 
   return (
-    <div className={`toast toast--${toast.tone}`} role="status">
+    <div
+      className={`toast toast--${toast.tone}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setFocused(false)
+        }
+      }}
+    >
       <span className="toast__icon" aria-hidden="true">
         <Icon size={18} strokeWidth={1.8} />
       </span>
@@ -125,11 +156,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="toast-stack" aria-live="polite" aria-atomic="false">
-        {toasts.map((toast) => (
-          <ToastCard key={toast.id} toast={toast} onDismiss={dismissToast} />
-        ))}
-      </div>
+      {createPortal(
+        <div className="toast-stack" aria-live="polite" aria-atomic="false">
+          {toasts.map((toast) => (
+            <ToastCard key={toast.id} toast={toast} onDismiss={dismissToast} />
+          ))}
+        </div>,
+        document.body,
+      )}
     </ToastContext.Provider>
   )
 }

@@ -214,7 +214,11 @@ export function HistoryPage({ onNavigateToday }: HistoryPageProps) {
           </div>
         </header>
 
-        <div className="heatmap">
+        <div
+          className="heatmap"
+          role="group"
+          aria-label={t('a11y.heatmapLabel')}
+        >
           <div className="heatmap__weekdays" aria-hidden="true">
             {[0, 1, 2, 3, 4, 5, 6].map((day) => (
               <span key={day}>{getWeekdayNarrow(day as 0 | 1 | 2 | 3 | 4 | 5 | 6)}</span>
@@ -228,19 +232,21 @@ export function HistoryPage({ onNavigateToday }: HistoryPageProps) {
                   const count = activityByDay.get(key) ?? 0
                   const level = count === 0 ? 0 : count <= 1 ? 1 : count <= 3 ? 2 : 3
                   const isFuture = day.getTime() > Date.now()
+                  const label = isFuture
+                    ? undefined
+                    : t('history.heatmapTooltip', {
+                        weekday: formatWeekday(day),
+                        date: formatShortDate(day),
+                        n: count,
+                      })
                   return (
                     <span
                       key={key}
                       className={`heatmap-cell heatmap-cell--${isFuture ? 'future' : level} ${key === dateKey() ? 'is-today' : ''}`}
-                      title={
-                        isFuture
-                          ? undefined
-                          : t('history.heatmapTooltip', {
-                              weekday: formatWeekday(day),
-                              date: formatShortDate(day),
-                              n: count,
-                            })
-                      }
+                      role={label ? 'img' : undefined}
+                      aria-label={label}
+                      aria-hidden={isFuture || undefined}
+                      title={label}
                     />
                   )
                 })}

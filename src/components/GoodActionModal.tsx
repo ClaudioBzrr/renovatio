@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Lightbulb } from 'lucide-react'
 import { Modal } from './Modal'
 import { GoodActionIcon } from './CategoryIcon'
@@ -37,6 +37,11 @@ export function GoodActionModal({
   const [description, setDescription] = useState('')
   const [feeling, setFeeling] = useState('')
   const [error, setError] = useState('')
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   const isEditing = action !== null
   const todayCount = data.goodActions.filter((item) => item.date === dateKey()).length
@@ -163,6 +168,9 @@ export function GoodActionModal({
               setError('')
             }}
             placeholder={t('goodAction.placeholder')}
+            aria-required="true"
+            aria-invalid={Boolean(error) || undefined}
+            aria-describedby={error ? 'good-action-error' : undefined}
           />
           <div className="field__label-row field__label-row--bottom">
             <span className="field__help">{t('goodAction.help')}</span>
@@ -213,7 +221,13 @@ export function GoodActionModal({
         </div>
 
         {error ? (
-          <p className="form-error" role="alert">
+          <p
+            ref={errorRef}
+            id="good-action-error"
+            className="form-error"
+            role="alert"
+            tabIndex={-1}
+          >
             {error}
           </p>
         ) : null}

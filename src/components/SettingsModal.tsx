@@ -1,4 +1,9 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react'
 import {
   Bell,
   Database,
@@ -15,6 +20,7 @@ import {
 } from 'lucide-react'
 import { Modal } from './Modal'
 import { LanguageSwitch } from './LanguageSwitch'
+import { NewTabHint } from './NewTabHint'
 import { useApp } from '../store/AppStore'
 import { useToast } from './Toast'
 import type { SettingsTab } from './Layout'
@@ -53,6 +59,9 @@ const TABS: { key: SettingsTab; labelKey: TranslationKey; icon: typeof UserRound
   { key: 'dados', labelKey: 'settings.tabData', icon: Database },
 ]
 
+const tabId = (key: SettingsTab) => `settings-tab-${key}`
+const panelId = (key: SettingsTab) => `settings-panel-${key}`
+
 export function SettingsModal({
   open,
   onClose,
@@ -74,6 +83,8 @@ export function SettingsModal({
   )
   const [resetConfirm, setResetConfirm] = useState(false)
   const [busy, setBusy] = useState(false)
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+  const resetCancelRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -81,6 +92,32 @@ export function SettingsModal({
     setPermission(notificationPermission())
     setResetConfirm(false)
   }, [initialTab, open])
+
+  useEffect(() => {
+    if (resetConfirm) resetCancelRef.current?.focus()
+  }, [resetConfirm])
+
+  const onTabKeyDown = (
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex = index
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = (index + 1) % TABS.length
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = (index - 1 + TABS.length) % TABS.length
+    } else if (event.key === 'Home') {
+      nextIndex = 0
+    } else if (event.key === 'End') {
+      nextIndex = TABS.length - 1
+    } else {
+      return
+    }
+    event.preventDefault()
+    setTab(TABS[nextIndex].key)
+    setResetConfirm(false)
+    tabRefs.current[nextIndex]?.focus()
+  }
 
   const supported = notificationsSupported()
   const granted = permission === 'granted'
@@ -204,33 +241,51 @@ export function SettingsModal({
       className="settings-modal"
     >
       <div className="settings-tabs" role="tablist" aria-label={t('settings.tabsAria')}>
-        {TABS.map((item) => {
+        {TABS.map((item, index) => {
           const Icon = item.icon
           const active = tab === item.key
           return (
             <button
               key={item.key}
+              ref={(node) => {
+                tabRefs.current[index] = node
+              }}
+              id={tabId(item.key)}
               type="button"
               role="tab"
               aria-selected={active}
+              aria-controls={panelId(item.key)}
+              tabIndex={active ? 0 : -1}
               className={`settings-tab ${active ? 'is-active' : ''}`}
-              onClick={() => setTab(item.key)}
+              onClick={() => {
+                setTab(item.key)
+                setResetConfirm(false)
+              }}
+              onKeyDown={(event) => onTabKeyDown(event, index)}
             >
-              <Icon size={16} strokeWidth={1.8} /> {t(item.labelKey)}
+              <Icon size={16} strokeWidth={1.8} aria-hidden="true" />{' '}
+              {t(item.labelKey)}
             </button>
           )
         })}
       </div>
 
-      {tab === 'perfil' ? (
-        <div className="settings-panel" role="tabpanel">
+      <div
+        className="settings-panel"
+        role="tabpanel"
+        id={panelId('perfil')}
+        aria-labelledby={tabId('perfil')}
+        hidden={tab !== 'perfil'}
+      >
           <section className="settings-section">
             <div className="settings-section__heading">
-              <h3>{t('settings.nameQuestion')}</h3>
-              <p>{t('settings.nameHelp')}</p>
+              <h3 id="settings-name-title">{t('settings.nameQuestion')}</h3>
+              <p id="settings-name-help">{t('settings.nameHelp')}</p>
             </div>
             <input
               className="input"
+              aria-labelledby="settings-name-title"
+              aria-describedby="settings-name-help"
               value={data.profile.name}
               onChange={(event) =>
                 updateProfile({ name: event.target.value.slice(0, 40) })
@@ -279,11 +334,15 @@ export function SettingsModal({
               {t('settings.methodLink')}
             </button>
           </section>
-        </div>
-      ) : null}
+      </div>
 
-      {tab === 'lembretes' ? (
-        <div className="settings-panel" role="tabpanel">
+      <div
+        className="settings-panel"
+        role="tabpanel"
+        id={panelId('lembretes')}
+        aria-labelledby={tabId('lembretes')}
+        hidden={tab !== 'lembretes'}
+      >
           <section className="settings-section">
             <div className="settings-toggle-row">
               <div>
@@ -306,8 +365,12 @@ export function SettingsModal({
               </button>
             </div>
 
-            <div className={`permission-status permission-status--${permission}`}>
-              <Bell size={16} strokeWidth={1.8} />
+            <div
+              className={`permission-status permission-status--${permission}`}
+              role="status"
+              aria-live="polite"
+            >
+              <Bell size={16} strokeWidth={1.8} aria-hidden="true" />
               <span>
                 {!supported
                   ? t('settings.statusUnsupported')
@@ -364,11 +427,15 @@ export function SettingsModal({
               <li>{t('settings.better3')}</li>
             </ul>
           </section>
-        </div>
-      ) : null}
+      </div>
 
-      {tab === 'dados' ? (
-        <div className="settings-panel" role="tabpanel">
+      <div
+        className="settings-panel"
+        role="tabpanel"
+        id={panelId('dados')}
+        aria-labelledby={tabId('dados')}
+        hidden={tab !== 'dados'}
+      >
           <section className="settings-section">
             <div className="settings-section__heading">
               <h3>{t('settings.localTitle')}</h3>
@@ -438,6 +505,7 @@ export function SettingsModal({
                 <p>{t('settings.resetConfirm')}</p>
                 <div className="reset-confirm__actions">
                   <button
+                    ref={resetCancelRef}
                     type="button"
                     className="button button--ghost button--small"
                     onClick={() => setResetConfirm(false)}
@@ -472,23 +540,26 @@ export function SettingsModal({
             <p className="settings-disclaimer">{t('settings.disclaimer')}</p>
             <div className="settings-links">
               <a href="https://www.cvv.org.br/" target="_blank" rel="noreferrer">
-                <HeartHandshake size={15} /> {t('settings.cvv')}{' '}
-                <ExternalLink size={12} />
+                <HeartHandshake size={15} aria-hidden="true" />{' '}
+                {t('settings.cvv')}{' '}
+                <ExternalLink size={12} aria-hidden="true" />
+                <NewTabHint />
               </a>
               <a
                 href="https://www.youtube.com/watch?v=aw3ksUsDVEE"
                 target="_blank"
                 rel="noreferrer"
               >
-                {t('settings.video')} <ExternalLink size={12} />
+                {t('settings.video')}{' '}
+                <ExternalLink size={12} aria-hidden="true" />
+                <NewTabHint />
               </a>
             </div>
             <p className="settings-version">
               <ShieldCheck size={14} /> {t('settings.version')}
             </p>
           </section>
-        </div>
-      ) : null}
+      </div>
     </Modal>
   )
 }

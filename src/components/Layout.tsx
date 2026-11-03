@@ -13,6 +13,7 @@ import {
 import { Brand } from './Brand'
 import { pathFor, type Route } from '../lib/navigation'
 import { useI18n } from '../i18n/I18nProvider'
+import { PAGE_TITLE_KEYS } from '../i18n/routes'
 import type { TranslationKey } from '../i18n/translations'
 
 export type SettingsTab = 'perfil' | 'lembretes' | 'dados'
@@ -107,12 +108,14 @@ export function Layout({
           {t('nav.settings')}
           <span
             className={`status-dot ${notificationsOn ? 'status-dot--on' : ''}`}
-            aria-label={
-              notificationsOn
-                ? t('nav.notificationsOn')
-                : t('nav.notificationsOff')
-            }
+            aria-hidden="true"
           />
+          {' '}
+          <span className="visually-hidden">
+            {notificationsOn
+              ? t('nav.notificationsOn')
+              : t('nav.notificationsOff')}
+          </span>
         </button>
       </aside>
 
@@ -131,10 +134,16 @@ export function Layout({
               type="button"
               className="icon-button"
               onClick={() => onOpenSettings('lembretes')}
-              aria-label={t('nav.reminderSettings')}
+              aria-label={`${t('nav.reminderSettings')} — ${
+                notificationsOn
+                  ? t('nav.notificationsOn')
+                  : t('nav.notificationsOff')
+              }`}
             >
               <Bell size={19} strokeWidth={1.8} />
-              {!notificationsOn ? <span className="icon-button__dot" /> : null}
+              {!notificationsOn ? (
+                <span className="icon-button__dot" aria-hidden="true" />
+              ) : null}
             </button>
             <button
               type="button"
@@ -154,7 +163,14 @@ export function Layout({
           </div>
         ) : null}
 
-        <div className="page-shell">{children}</div>
+        <main
+          id="main-content"
+          className="page-shell"
+          tabIndex={-1}
+          aria-label={t(PAGE_TITLE_KEYS[route])}
+        >
+          {children}
+        </main>
       </div>
 
       <nav className="bottom-nav" aria-label={t('nav.main')}>

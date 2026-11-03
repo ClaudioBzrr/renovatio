@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { PageHeader } from '../components/PageHeader'
 import { BrandMark } from '../components/Brand'
+import { NewTabHint } from '../components/NewTabHint'
 import { useI18n } from '../i18n/I18nProvider'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -42,7 +43,20 @@ export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPagePro
   const { t } = useI18n()
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const target = document.getElementById(id)
+    if (!target) return
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    target.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+    const heading = target.querySelector<HTMLElement>('h2')
+    if (heading) {
+      heading.tabIndex = -1
+      heading.focus({ preventScroll: true })
+    }
   }
 
   return (
@@ -80,6 +94,7 @@ export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPagePro
               <button
                 key={section.id}
                 type="button"
+                aria-controls={section.id}
                 onClick={() => scrollTo(section.id)}
               >
                 <span>{String(index + 1).padStart(2, '0')}</span>
@@ -234,8 +249,10 @@ export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPagePro
               </p>
               <div className="safety-links">
                 <a href="https://www.cvv.org.br/" target="_blank" rel="noreferrer">
-                  <HeartHandshake size={16} /> {t('settings.cvv')}{' '}
-                  <ExternalLink size={13} />
+                  <HeartHandshake size={16} aria-hidden="true" />{' '}
+                  {t('settings.cvv')}{' '}
+                  <ExternalLink size={13} aria-hidden="true" />
+                  <NewTabHint />
                 </a>
                 <span>{t('method.cvvNote')}</span>
               </div>
@@ -248,7 +265,8 @@ export function MethodPage({ onNavigateToday, onNavigateRoutine }: MethodPagePro
                 rel="noreferrer"
               >
                 {t('method.sourceVideo')}
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={14} aria-hidden="true" />
+                <NewTabHint />
               </a>
               {t('method.sourceSuffix')}
             </p>

@@ -21,6 +21,7 @@ export function LanguageSwitch({
       {!compact ? <Languages size={15} strokeWidth={1.8} aria-hidden="true" /> : null}
       <button
         type="button"
+        lang="pt-BR"
         className={`language-switch__option ${locale === 'pt-BR' ? 'is-active' : ''}`}
         aria-pressed={locale === 'pt-BR'}
         onClick={() => setLocale('pt-BR')}
@@ -30,6 +31,7 @@ export function LanguageSwitch({
       <span className="language-switch__divider" aria-hidden="true" />
       <button
         type="button"
+        lang="en-US"
         className={`language-switch__option ${locale === 'en-US' ? 'is-active' : ''}`}
         aria-pressed={locale === 'en-US'}
         onClick={() => setLocale('en-US')}

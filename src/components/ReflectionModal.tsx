@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Check, Eye, Quote } from 'lucide-react'
 import { Modal } from './Modal'
 import { CategoryIcon } from './CategoryIcon'
@@ -42,6 +42,11 @@ export function ReflectionModal({
   const [sensory, setSensory] = useState('')
   const [error, setError] = useState('')
   const [saved, setSaved] = useState(false)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   useEffect(() => {
     if (!open) return
@@ -178,7 +183,11 @@ export function ReflectionModal({
         </div>
       </div>
 
-      <div className="method-steps" aria-label={t('reflection.stepsAria')}>
+      <div
+        className="method-steps"
+        role="group"
+        aria-label={t('reflection.stepsAria')}
+      >
         <span>
           <strong>1</strong> {t('common.want')}
         </span>
@@ -220,6 +229,9 @@ export function ReflectionModal({
               setError('')
             }}
             placeholder={t('reflection.placeholder')}
+            aria-required="true"
+            aria-invalid={Boolean(error) || undefined}
+            aria-describedby={error ? 'reflection-error' : undefined}
           />
           <div className="field__label-row field__label-row--bottom">
             <span className="field__help">{t('reflection.help')}</span>
@@ -227,7 +239,11 @@ export function ReflectionModal({
           </div>
         </div>
 
-        <div className="prompt-chips" aria-label={t('reflection.promptsAria')}>
+        <div
+          className="prompt-chips"
+          role="group"
+          aria-label={t('reflection.promptsAria')}
+        >
           {PROMPTS.map((promptKey) => {
             const prompt = t(promptKey)
             return (
@@ -269,7 +285,13 @@ export function ReflectionModal({
         </div>
 
         {error ? (
-          <p className="form-error" role="alert">
+          <p
+            ref={errorRef}
+            id="reflection-error"
+            className="form-error"
+            role="alert"
+            tabIndex={-1}
+          >
             {error}
           </p>
         ) : null}

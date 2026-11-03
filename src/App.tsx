@@ -5,6 +5,7 @@ import { useInstallPrompt } from './hooks/useInstallPrompt'
 import { useOnline } from './hooks/useOnline'
 import { useReminderEngine } from './hooks/useReminderEngine'
 import { useToast } from './components/Toast'
+import { RouteAnnouncer } from './components/RouteAnnouncer'
 import { Layout, type SettingsTab } from './components/Layout'
 import { TaskFormModal } from './components/TaskFormModal'
 import { ReflectionModal } from './components/ReflectionModal'
@@ -28,6 +29,7 @@ import type {
 } from './types'
 import { notificationPermission } from './lib/notifications'
 import { useI18n } from './i18n/I18nProvider'
+import { PAGE_TITLE_KEYS } from './i18n/routes'
 
 interface TaskFormState {
   open: boolean
@@ -56,6 +58,23 @@ export function App() {
   const { t } = useI18n()
   const { canInstall, isStandalone, isIos, install } = useInstallPrompt()
   const online = useOnline()
+  const pageTitle = t(PAGE_TITLE_KEYS[route])
+  const routeAnnouncement = t('a11y.pageAnnouncement', { page: pageTitle })
+  const previousRoute = useRef(route)
+
+  useEffect(() => {
+    document.title =
+      route === 'inicio'
+        ? t('meta.title')
+        : `${pageTitle} · ${t('app.name')}`
+  }, [pageTitle, route, t])
+
+  useEffect(() => {
+    if (previousRoute.current === route) return
+    previousRoute.current = route
+    const heading = document.querySelector<HTMLElement>('[data-page-heading]')
+    heading?.focus({ preventScroll: true })
+  }, [route])
 
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [settingsTab, setSettingsTab] = useState<SettingsTab>('perfil')
@@ -240,37 +259,47 @@ export function App() {
   if (!data.profile.onboarded) {
     if (route === 'comecar') {
       return (
-        <Onboarding
-          onFinish={finishOnboarding}
-          onBackToLanding={() => navigate('/inicio')}
-          onInstall={handleInstall}
-          canInstall={canInstall}
-          isStandalone={isStandalone}
-          isIos={isIos}
-        />
+        <>
+          <Onboarding
+            onFinish={finishOnboarding}
+            onBackToLanding={() => navigate('/inicio')}
+            onInstall={handleInstall}
+            canInstall={canInstall}
+            isStandalone={isStandalone}
+            isIos={isIos}
+          />
+          <RouteAnnouncer route={route} message={routeAnnouncement} />
+        </>
       )
     }
     return (
-      <LandingPage
-        isReturning={false}
-        onStart={() => navigate('/comecar')}
-        onOpenApp={() => navigate('/hoje')}
-      />
+      <>
+        <LandingPage
+          isReturning={false}
+          onStart={() => navigate('/comecar')}
+          onOpenApp={() => navigate('/hoje')}
+        />
+        <RouteAnnouncer route={route} message={routeAnnouncement} />
+      </>
     )
   }
 
   if (route === 'inicio' || route === 'comecar') {
     return (
-      <LandingPage
-        isReturning
-        onStart={() => navigate('/hoje')}
-        onOpenApp={() => navigate('/hoje')}
-      />
+      <>
+        <LandingPage
+          isReturning
+          onStart={() => navigate('/hoje')}
+          onOpenApp={() => navigate('/hoje')}
+        />
+        <RouteAnnouncer route={route} message={routeAnnouncement} />
+      </>
     )
   }
 
   return (
     <>
+      <RouteAnnouncer route={route} message={routeAnnouncement} />
       <Layout
         route={route}
         navigate={navigate}

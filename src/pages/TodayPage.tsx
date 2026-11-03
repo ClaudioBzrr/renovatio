@@ -362,7 +362,12 @@ export function TodayPage({
                 <span className="rhythm-card__dot rhythm-card__dot--moss" />
                 {t('today.goodGestures')}
               </span>
-              <strong>{todayGoodActions.length}/3</strong>
+              <strong>
+                <span className="visually-hidden">
+                  {t('a11y.goodGoal', { n: todayGoodActions.length })}
+                </span>
+                <span aria-hidden="true">{todayGoodActions.length}/3</span>
+              </strong>
             </div>
           </div>
 
@@ -482,7 +487,10 @@ export function TodayPage({
             <span
               className={`good-panel__count ${todayGoodActions.length === 3 ? 'is-complete' : ''}`}
             >
-              {todayGoodActions.length}/3
+              <span className="visually-hidden">
+                {t('a11y.goodGoal', { n: todayGoodActions.length })}
+              </span>
+              <span aria-hidden="true">{todayGoodActions.length}/3</span>
             </span>
           </header>
 
@@ -569,18 +577,25 @@ export function TodayPage({
               })}
             </span>
           </header>
-          <div className="week-strip">
+          <div
+            className="week-strip"
+            role="group"
+            aria-label={t('a11y.weekLabel')}
+          >
             {week.map((day) => {
               const level = day.count === 0 ? 0 : day.count === 1 ? 1 : day.count <= 3 ? 2 : 3
+              const label = t('today.weekTooltip', {
+                date: formatShortDate(day.date),
+                micro: day.micro,
+                good: day.good,
+              })
               return (
                 <div
                   key={day.key}
                   className={`week-day week-day--level-${level} ${day.key === today ? 'is-today' : ''}`}
-                  title={t('today.weekTooltip', {
-                    date: formatShortDate(day.date),
-                    micro: day.micro,
-                    good: day.good,
-                  })}
+                  role="img"
+                  aria-label={label}
+                  title={label}
                 >
                   <span className="week-day__bar">
                     <span />

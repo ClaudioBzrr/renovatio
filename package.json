@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "icons": "node scripts/make-icons.mjs",
-    "test:e2e": "node scripts/functional.mjs"
+    "test:e2e": "node scripts/functional.mjs",
+    "test:a11y": "node scripts/a11y.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.66.0",

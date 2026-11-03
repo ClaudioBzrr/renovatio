@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Clock3, Lightbulb, Sparkles } from 'lucide-react'
 import { Modal } from './Modal'
 import { CategoryIcon } from './CategoryIcon'
@@ -48,7 +48,15 @@ export function TaskFormModal({
   const [time, setTime] = useState('09:00')
   const [days, setDays] = useState<Weekday[]>(ALL_DAYS)
   const [error, setError] = useState('')
+  const [errorField, setErrorField] = useState<
+    'title' | 'time' | 'days' | null
+  >(null)
   const [ideaIndex, setIdeaIndex] = useState(0)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   const isEditing = task !== null
   const atLimit = !isEditing && data.tasks.length >= maxTasks
@@ -60,6 +68,7 @@ export function TaskFormModal({
     setTime(task?.time ?? initialTime ?? suggestedTime())
     setDays(task?.days ?? ALL_DAYS)
     setError('')
+    setErrorField(null)
     setIdeaIndex(0)
   }, [initialCategory, initialTime, initialTitle, open, task])
 
@@ -82,12 +91,23 @@ export function TaskFormModal({
         ? current.filter((item) => item !== day)
         : [...current, day].sort((a, b) => a - b),
     )
+    setError('')
+    setErrorField(null)
   }
 
   const submit = () => {
     const input: TaskInput = { title, category, time, days }
     const result = isEditing ? updateTask(task.id, input) : addTask(input)
     if (!result.ok) {
+      const field =
+        result.error === 'taskTitleShort'
+          ? 'title'
+          : result.error === 'timeRequired'
+            ? 'time'
+            : result.error === 'daysRequired'
+              ? 'days'
+              : null
+      setErrorField(field)
       setError(t(storeErrorKey(result.error)))
       return
     }
@@ -152,10 +172,14 @@ export function TaskFormModal({
             onChange={(event) => {
               setTitle(event.target.value)
               setError('')
+              setErrorField(null)
             }}
             placeholder={t('taskForm.placeholder')}
             maxLength={80}
             autoComplete="off"
+            aria-required="true"
+            aria-invalid={errorField === 'title' || undefined}
+            aria-describedby={errorField === 'title' ? 'task-form-error' : undefined}
           />
           <p className="field__help">{t('taskForm.help')}</p>
         </div>
@@ -207,8 +231,11 @@ export function TaskFormModal({
                 onChange={(event) => {
                   setTime(event.target.value)
                   setError('')
+                  setErrorField(null)
                 }}
                 required
+                aria-invalid={errorField === 'time' || undefined}
+                aria-describedby={errorField === 'time' ? 'task-form-error' : undefined}
               />
             </div>
             <p className="field__help">{t('taskForm.timeHelp')}</p>
@@ -220,6 +247,8 @@ export function TaskFormModal({
               className="days-row"
               role="group"
               aria-label={t('taskForm.daysAria')}
+              aria-invalid={errorField === 'days' || undefined}
+              aria-describedby={errorField === 'days' ? 'task-form-error' : undefined}
             >
               {weekdays.map((weekday) => {
                 const selected = days.includes(weekday.value)
@@ -284,7 +313,13 @@ export function TaskFormModal({
         </div>
 
         {error ? (
-          <p className="form-error" role="alert">
+          <p
+            ref={errorRef}
+            id="task-form-error"
+            className="form-error"
+            role="alert"
+            tabIndex={-1}
+          >
             {error}
           </p>
         ) : null}

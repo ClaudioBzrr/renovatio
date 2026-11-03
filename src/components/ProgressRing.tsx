@@ -42,7 +42,10 @@ export function ProgressRing({
     <div
       className={`progress-ring progress-ring--${tone}`}
       style={{ width: size, height: size }}
-      role="img"
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(targetValue * 100)}
       aria-label={label ?? t('progress.complete', { n: Math.round(targetValue * 100) })}
     >
       <svg width={size} height={size} aria-hidden="true">

@@ -5,6 +5,7 @@ import './styles.css'
 import { App } from './App'
 import { AppProvider } from './store/AppStore'
 import { ToastProvider } from './components/Toast'
+import { SkipLink } from './components/SkipLink'
 import { I18nProvider } from './i18n/I18nProvider'
 
 registerSW({ immediate: true })
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
     <I18nProvider>
       <AppProvider>
         <ToastProvider>
+          <SkipLink />
           <App />
         </ToastProvider>
       </AppProvider>

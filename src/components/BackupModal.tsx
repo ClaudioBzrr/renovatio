@@ -39,7 +39,15 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
   const [fileName, setFileName] = useState('')
   const [fileText, setFileText] = useState('')
   const [error, setError] = useState('')
+  const [errorField, setErrorField] = useState<
+    'password' | 'confirmation' | 'file' | null
+  >(null)
   const [busy, setBusy] = useState(false)
+  const errorRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (error) errorRef.current?.focus()
+  }, [error])
 
   useEffect(() => {
     if (!open) return
@@ -49,6 +57,7 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
     setFileName('')
     setFileText('')
     setError('')
+    setErrorField(null)
     setBusy(false)
   }, [mode, open])
 
@@ -57,6 +66,7 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
   const chooseFile = async (file: File | null) => {
     if (!file) return
     setError('')
+    setErrorField(null)
     setFileName(file.name)
     try {
       setFileText(await file.text())
@@ -67,25 +77,30 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
 
   const submit = async () => {
     setError('')
+    setErrorField(null)
     if (!encryptionAvailable()) {
       setError(t('backup.errorCrypto'))
       return
     }
     if (isExport) {
       if (password.length < 8) {
+        setErrorField('password')
         setError(t('backup.errorPasswordShort'))
         return
       }
       if (password !== confirmation) {
+        setErrorField('confirmation')
         setError(t('backup.errorPasswordMismatch'))
         return
       }
     } else {
       if (!fileText) {
+        setErrorField('file')
         setError(t('backup.errorNoFile'))
         return
       }
       if (!password) {
+        setErrorField('password')
         setError(t('backup.errorPasswordShort'))
         return
       }
@@ -161,28 +176,39 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
       >
         {!isExport ? (
           <div className="field">
-            <span className="field__label">{t('backup.fileLabel')}</span>
+            <label className="field__label" htmlFor="backup-file">
+              {t('backup.fileLabel')}
+            </label>
             <input
               ref={fileInputRef}
               id="backup-file"
               type="file"
               className="visually-hidden"
+              tabIndex={-1}
               accept=".renovatio,application/octet-stream"
               onChange={(event) => void chooseFile(event.target.files?.[0] ?? null)}
             />
             <button
               type="button"
               className="backup-file"
+              data-autofocus={!isExport || undefined}
+              aria-describedby={
+                errorField === 'file'
+                  ? 'backup-file-help backup-error'
+                  : 'backup-file-help'
+              }
               onClick={() => fileInputRef.current?.click()}
             >
-              <span className="backup-file__icon">
+              <span className="backup-file__icon" aria-hidden="true">
                 <FileKey2 size={20} strokeWidth={1.8} />
               </span>
               <span className="backup-file__body">
-                <strong>{fileName || t('backup.chooseFile')}</strong>
-                <small>{t('backup.fileHelp')}</small>
+                <strong aria-live="polite">
+                  {fileName || t('backup.chooseFile')}
+                </strong>
+                <small id="backup-file-help">{t('backup.fileHelp')}</small>
               </span>
-              <Upload size={17} className="backup-file__action" />
+              <Upload size={17} className="backup-file__action" aria-hidden="true" />
             </button>
           </div>
         ) : null}
@@ -195,17 +221,22 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
             <LockKeyhole size={17} strokeWidth={1.8} aria-hidden="true" />
             <input
               id="backup-password"
-              data-autofocus
+              data-autofocus={isExport || undefined}
               className="input"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(event) => {
                 setPassword(event.target.value)
                 setError('')
+                setErrorField(null)
               }}
               placeholder={t('backup.passwordPlaceholder')}
               autoComplete={isExport ? 'new-password' : 'current-password'}
               minLength={isExport ? 8 : 1}
+              aria-invalid={errorField === 'password' || undefined}
+              aria-describedby={
+                errorField === 'password' ? 'backup-error' : undefined
+              }
             />
             <button
               type="button"
@@ -213,6 +244,8 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
               aria-label={t(
                 showPassword ? 'backup.hidePassword' : 'backup.showPassword',
               )}
+              aria-pressed={showPassword}
+              aria-controls="backup-password"
               onClick={() => setShowPassword((current) => !current)}
             >
               {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
@@ -235,10 +268,15 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
                 onChange={(event) => {
                   setConfirmation(event.target.value)
                   setError('')
+                  setErrorField(null)
                 }}
                 placeholder={t('backup.confirmPlaceholder')}
                 autoComplete="new-password"
                 minLength={8}
+                aria-invalid={errorField === 'confirmation' || undefined}
+                aria-describedby={
+                  errorField === 'confirmation' ? 'backup-error' : undefined
+                }
               />
             </div>
           </div>
@@ -261,7 +299,13 @@ export function BackupModal({ open, mode, onClose }: BackupModalProps) {
         </div>
 
         {error ? (
-          <p className="form-error" role="alert">
+          <p
+            ref={errorRef}
+            id="backup-error"
+            className="form-error"
+            role="alert"
+            tabIndex={-1}
+          >
             {error}
           </p>
         ) : null}

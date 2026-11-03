@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { Brand, BrandMark } from '../components/Brand'
 import { LanguageSwitch } from '../components/LanguageSwitch'
+import { NewTabHint } from '../components/NewTabHint'
 import { ProgressRing } from '../components/ProgressRing'
 import { CategoryIcon } from '../components/CategoryIcon'
 import { useI18n } from '../i18n/I18nProvider'
@@ -151,7 +152,20 @@ export function LandingPage({
   }, [])
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const target = document.getElementById(id)
+    if (!target) return
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    target.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+    const heading = target.querySelector<HTMLElement>('h2')
+    if (heading) {
+      heading.tabIndex = -1
+      heading.focus({ preventScroll: true })
+    }
   }
 
   return (
@@ -162,14 +176,23 @@ export function LandingPage({
       <header className="landing__nav">
         <Brand />
         <nav className="landing__nav-links" aria-label={t('nav.main')}>
-          <button type="button" onClick={() => scrollTo('como-funciona')}>
+          <button
+            type="button"
+            aria-controls="como-funciona"
+            onClick={() => scrollTo('como-funciona')}
+          >
             {t('landing.navHow')}
           </button>
-          <button type="button" onClick={() => scrollTo('seguranca')}>
+          <button
+            type="button"
+            aria-controls="seguranca"
+            onClick={() => scrollTo('seguranca')}
+          >
             {t('landing.navSafety')}
           </button>
           <a href={docsUrl} target="_blank" rel="noreferrer">
-            {t('landing.navDocs')} <ArrowUpRight size={13} />
+            {t('landing.navDocs')} <ArrowUpRight size={13} aria-hidden="true" />
+            <NewTabHint />
           </a>
         </nav>
         <div className="landing__nav-actions">
@@ -184,11 +207,11 @@ export function LandingPage({
         </div>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1} aria-label={t('a11y.mainContent')}>
         <section className="landing__hero">
           <div className="landing__hero-copy">
             <p className="eyebrow">{t('landing.eyebrow')}</p>
-            <h1 className="landing__title">
+            <h1 className="landing__title" data-page-heading tabIndex={-1}>
               {t('landing.titleLead')}
               <br />
               <em>{t('landing.titleEm')}</em>
@@ -201,6 +224,7 @@ export function LandingPage({
               <button
                 type="button"
                 className="button button--ghost"
+                aria-controls="metodo"
                 onClick={() => scrollTo('metodo')}
               >
                 {t('landing.viewMethod')}
@@ -340,7 +364,9 @@ export function LandingPage({
               target="_blank"
               rel="noreferrer"
             >
-              {t('landing.videoLink')} <ArrowUpRight size={15} />
+              {t('landing.videoLink')}{' '}
+              <ArrowUpRight size={15} aria-hidden="true" />
+              <NewTabHint />
             </a>
           </div>
           <div
@@ -361,10 +387,12 @@ export function LandingPage({
           </div>
           <div className="landing__safety-actions">
             <a href="https://www.cvv.org.br/" target="_blank" rel="noreferrer">
-              <HeartHandshake size={16} /> {t('settings.cvv')}
+              <HeartHandshake size={16} aria-hidden="true" /> {t('settings.cvv')}
+              <NewTabHint />
             </a>
             <a href={docsUrl} target="_blank" rel="noreferrer">
-              <BookOpen size={16} /> {t('landing.docsLink')}
+              <BookOpen size={16} aria-hidden="true" /> {t('landing.docsLink')}
+              <NewTabHint />
             </a>
           </div>
         </section>
@@ -397,6 +425,7 @@ export function LandingPage({
         <div className="landing__footer-links">
           <a href={docsUrl} target="_blank" rel="noreferrer">
             {t('landing.navDocs')}
+            <NewTabHint />
           </a>
           <a
             href="https://github.com/ClaudioBzrr/renovatio"
@@ -404,9 +433,11 @@ export function LandingPage({
             rel="noreferrer"
           >
             GitHub
+            <NewTabHint />
           </a>
           <a href="https://www.cvv.org.br/" target="_blank" rel="noreferrer">
             CVV · 188
+            <NewTabHint />
           </a>
         </div>
       </footer>

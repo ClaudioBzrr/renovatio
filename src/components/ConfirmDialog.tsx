@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { AlertTriangle } from 'lucide-react'
 import { Modal } from './Modal'
 import { useI18n } from '../i18n/I18nProvider'
@@ -24,13 +25,23 @@ export function ConfirmDialog({
   onClose,
 }: ConfirmDialogProps) {
   const { t } = useI18n()
+  const descriptionId = useId()
   return (
-    <Modal open={open} onClose={onClose} title={title} size="sm">
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={title}
+      size="sm"
+      describedBy={descriptionId}
+    >
       <div className="confirm-dialog">
-        <span className={`confirm-dialog__icon ${danger ? 'confirm-dialog__icon--danger' : ''}`}>
+        <span
+          className={`confirm-dialog__icon ${danger ? 'confirm-dialog__icon--danger' : ''}`}
+          aria-hidden="true"
+        >
           <AlertTriangle size={20} strokeWidth={1.8} />
         </span>
-        <p>{description}</p>
+        <p id={descriptionId}>{description}</p>
       </div>
       <div className="modal-actions">
         <button type="button" className="button button--ghost" onClick={onClose}>

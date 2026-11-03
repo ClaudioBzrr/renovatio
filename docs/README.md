@@ -111,6 +111,27 @@ Reminders use the browser notification API and the service worker:
 - **Erase all data** removes everything from the device after confirmation.
 - The browser may clear local storage; export an encrypted backup if you want to keep your history.
 
+## Accessibility
+
+Renovatio is built to be usable with a keyboard, a screen reader and reduced-motion or high-contrast preferences:
+
+- a **skip link** is the first tab stop and moves focus to the main landmark;
+- every view has one `<main id="main-content">`, one visible `<h1>` and localized landmarks;
+- route changes update the document title, move focus to the page heading and are announced through a polite live region;
+- dialogs are named, trap focus, close with **Escape**, make the background inert and restore focus to the trigger;
+- tabs, switches, segmented controls and selectable cards expose their state with `aria-selected`, `aria-checked` or `aria-pressed` and support keyboard use;
+- charts, progress rings, timers and character counts expose text alternatives for screen readers;
+- form errors use `role="alert"`, receive focus and are associated with their fields;
+- toasts pause their auto-dismiss timer while hovered or focused;
+- `prefers-reduced-motion`, `prefers-contrast: more` and `forced-colors: active` are supported;
+- focus rings, target sizes and color contrast follow WCAG 2.2 AA guidance.
+
+The accessibility regression check runs against the preview server:
+
+```bash
+npm run test:a11y
+```
+
 ## SEO, GEO and LLMO
 
 The public build includes:
@@ -147,6 +168,7 @@ In another:
 
 ```bash
 npm run test:e2e
+npm run test:a11y
 ```
 
 If Chrome is somewhere else, set `CHROME_PATH`. For another URL, set `BASE_URL` (including `/renovatio/`).
@@ -170,6 +192,7 @@ docs/
 scripts/
   make-icons.mjs generates PNG icons from the brand SVG
   functional.mjs Playwright smoke test
+  a11y.mjs       accessibility regression check
 public/
   icons/         PWA and Apple Touch icons
   fonts/         self-hosted Fraunces and Manrope

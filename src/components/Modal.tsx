@@ -1,6 +1,6 @@
 import {
-  useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   type ReactNode,
 } from 'react'
@@ -19,10 +19,49 @@ interface ModalProps {
   className?: string
   hideClose?: boolean
   ariaLabel?: string
+  describedBy?: string
 }
 
 const FOCUSABLE =
   'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+/** Shared locks so stacked dialogs never leave the app inert or scroll-locked. */
+let modalLockCount = 0
+let bodyLockCount = 0
+let previousBodyOverflow = ''
+
+function lockBodyScroll(): void {
+  if (bodyLockCount === 0) {
+    previousBodyOverflow = document.body.style.overflow
+  }
+  document.body.style.overflow = 'hidden'
+  bodyLockCount += 1
+}
+
+function unlockBodyScroll(): void {
+  bodyLockCount = Math.max(0, bodyLockCount - 1)
+  if (bodyLockCount === 0) {
+    document.body.style.overflow = previousBodyOverflow
+  }
+}
+
+function lockAppBackground(): void {
+  if (modalLockCount === 0) {
+    const root = document.getElementById('root')
+    root?.setAttribute('inert', '')
+    root?.setAttribute('aria-hidden', 'true')
+  }
+  modalLockCount += 1
+}
+
+function unlockAppBackground(): boolean {
+  modalLockCount = Math.max(0, modalLockCount - 1)
+  if (modalLockCount > 0) return false
+  const root = document.getElementById('root')
+  root?.removeAttribute('inert')
+  root?.removeAttribute('aria-hidden')
+  return true
+}
 
 export function Modal({
   open,
@@ -35,6 +74,7 @@ export function Modal({
   className = '',
   hideClose = false,
   ariaLabel,
+  describedBy,
 }: ModalProps) {
   const { t } = useI18n()
   const titleId = useId()
@@ -42,19 +82,21 @@ export function Modal({
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return
     const previousFocus = document.activeElement as HTMLElement | null
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockBodyScroll()
+    lockAppBackground()
 
-    const focusFirst = window.setTimeout(() => {
-      const panel = panelRef.current
-      if (!panel) return
+    const panel = panelRef.current
+    if (panel) {
       const preferred = panel.querySelector<HTMLElement>('[data-autofocus]')
-      const focusable = panel.querySelector<HTMLElement>(FOCUSABLE)
-      ;(preferred ?? focusable ?? panel).focus()
-    }, 40)
+      const autofocus =
+        preferred && preferred.offsetParent !== null ? preferred : null
+      // Focusing the dialog itself announces its accessible name. Forms with
+      // an explicit autofocus target still receive focus directly.
+      ;(autofocus ?? panel).focus()
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -75,7 +117,10 @@ export function Modal({
       }
       const first = items[0]
       const last = items[items.length - 1]
-      if (event.shiftKey && document.activeElement === first) {
+      if (document.activeElement === panel) {
+        event.preventDefault()
+        ;(event.shiftKey ? last : first).focus()
+      } else if (event.shiftKey && document.activeElement === first) {
         event.preventDefault()
         last.focus()
       } else if (!event.shiftKey && document.activeElement === last) {
@@ -86,10 +131,10 @@ export function Modal({
 
     document.addEventListener('keydown', onKeyDown)
     return () => {
-      window.clearTimeout(focusFirst)
       document.removeEventListener('keydown', onKeyDown)
-      document.body.style.overflow = previousOverflow
-      previousFocus?.focus?.()
+      unlockBodyScroll()
+      const shouldRestoreFocus = unlockAppBackground()
+      if (shouldRestoreFocus) previousFocus?.focus?.()
     }
   }, [open])
 
@@ -109,6 +154,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={!title ? ariaLabel : undefined}
+        aria-describedby={describedBy}
         tabIndex={-1}
       >
         {!hideClose ? (

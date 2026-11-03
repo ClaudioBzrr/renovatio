@@ -51,6 +51,17 @@ export function PresenceModal({ open, task, onClose, onRegister }: PresenceModal
   const [remaining, setRemaining] = useState(DURATIONS.anticipate)
   const [running, setRunning] = useState(false)
   const endAtRef = useRef<number | null>(null)
+  const doneHeadingRef = useRef<HTMLHeadingElement>(null)
+  const pauseButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (screen === 'running') {
+      pauseButtonRef.current?.focus({ preventScroll: true })
+    }
+    if (screen === 'done') {
+      doneHeadingRef.current?.focus({ preventScroll: true })
+    }
+  }, [screen])
 
   useEffect(() => {
     if (!open) return
@@ -188,8 +199,17 @@ export function PresenceModal({ open, task, onClose, onRegister }: PresenceModal
       {screen === 'running' ? (
         <div className="presence-timer">
           <div className="presence-timer__ring">
-            <ProgressRing value={progress} size={188} stroke={6}>
-              <span className="presence-timer__time">{formatCountdown(remaining)}</span>
+            <ProgressRing
+              value={progress}
+              size={188}
+              stroke={6}
+              label={t('a11y.presenceTimer', {
+                time: formatCountdown(remaining),
+              })}
+            >
+              <span className="presence-timer__time" aria-hidden="true">
+                {formatCountdown(remaining)}
+              </span>
               <span className="presence-timer__mode">
                 {t(mode === 'anticipate' ? 'presence.modeBefore' : 'presence.modeDuring')}
               </span>
@@ -200,7 +220,12 @@ export function PresenceModal({ open, task, onClose, onRegister }: PresenceModal
           </p>
           <div className="presence-timer__controls">
             {running ? (
-              <button type="button" className="button button--dark" onClick={pause}>
+              <button
+                ref={pauseButtonRef}
+                type="button"
+                className="button button--dark"
+                onClick={pause}
+              >
                 <Pause size={16} /> {t('presence.pause')}
               </button>
             ) : (
@@ -223,12 +248,14 @@ export function PresenceModal({ open, task, onClose, onRegister }: PresenceModal
       ) : null}
 
       {screen === 'done' ? (
-        <div className="presence-done">
-          <span className="presence-done__mark">
+        <div className="presence-done" role="status">
+          <span className="presence-done__mark" aria-hidden="true">
             <BrandMark size={56} />
           </span>
           <p className="eyebrow">{t('presence.doneEyebrow')}</p>
-          <h3>{t('presence.doneTitle')}</h3>
+          <h3 ref={doneHeadingRef} tabIndex={-1}>
+            {t('presence.doneTitle')}
+          </h3>
           <p>
             {t(
               mode === 'anticipate'

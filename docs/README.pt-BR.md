@@ -111,6 +111,27 @@ Os lembretes usam a API de notificações do navegador e o service worker:
 - **Apagar todos os dados** remove tudo do aparelho, com confirmação.
 - O navegador pode limpar o armazenamento local; exporte um backup criptografado se quiser guardar o histórico.
 
+## Acessibilidade
+
+O Renovatio foi construído para ser usado com teclado, leitor de tela e preferências de movimento reduzido ou alto contraste:
+
+- um **link de pular** é o primeiro ponto de tabulação e move o foco para o conteúdo principal;
+- cada tela tem um único `<main id="main-content">`, um `<h1>` visível e landmarks traduzidos;
+- a troca de rota atualiza o título do documento, move o foco para o título da página e é anunciada por uma região viva educada;
+- diálogos têm nome acessível, prendem o foco, fecham com **Escape**, tornam o fundo inerte e devolvem o foco ao acionador;
+- abas, interruptores, controles segmentados e cartões selecionáveis expõem o estado com `aria-selected`, `aria-checked` ou `aria-pressed` e funcionam pelo teclado;
+- gráficos, anéis de progresso, timers e contadores de caracteres têm alternativas textuais para leitores de tela;
+- erros de formulário usam `role="alert"`, recebem foco e são associados aos campos;
+- avisos pausam o tempo de fechamento automático enquanto estão com o ponteiro ou o foco em cima;
+- `prefers-reduced-motion`, `prefers-contrast: more` e `forced-colors: active` são suportados;
+- foco visível, tamanho de alvo e contraste de cores seguem as orientações WCAG 2.2 AA.
+
+A verificação de regressão de acessibilidade roda contra o servidor de preview:
+
+```bash
+npm run test:a11y
+```
+
 ## SEO, GEO e LLMO
 
 O build público inclui:
@@ -147,6 +168,7 @@ Em outro:
 
 ```bash
 npm run test:e2e
+npm run test:a11y
 ```
 
 Se o Chrome estiver em outro caminho, defina `CHROME_PATH`. Para outra URL, defina `BASE_URL` (incluindo `/renovatio/`).
@@ -170,6 +192,7 @@ docs/
 scripts/
   make-icons.mjs gera os ícones PNG a partir do SVG da marca
   functional.mjs teste de fumaça com Playwright
+  a11y.mjs       verificação de regressão de acessibilidade
 public/
   icons/         ícones PWA e Apple Touch
   fonts/         Fraunces e Manrope auto-hospedadas

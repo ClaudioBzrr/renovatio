@@ -37,7 +37,7 @@
   --ember-deep: #a53f25;
   --ember-soft: #f7e1d6;
   --ember-pale: #fbf0e9;
-  --gold: #b9873f;
+  --gold: #8a5f1f;
   --gold-soft: #f3e7ce;
   --moss: #4f6b55;
   --moss-soft: #e2e9dd;
@@ -131,7 +131,7 @@ p {
 }
 
 ::selection {
-  background: var(--ember);
+  background: var(--ember-deep);
   color: #fff;
 }
 
@@ -6474,7 +6474,7 @@ p {
 }
 
 .method-steps span.is-current strong {
-  background: var(--ember);
+  background: var(--ember-deep);
   color: #fff;
 }
 
@@ -9457,5 +9457,179 @@ p {
 
   .landing__method-steps::before {
     transform: scaleY(1);
+  }
+}
+
+/* ---------- Accessibility (A11Y) ---------- */
+
+html {
+  scroll-padding-top: 24px;
+}
+
+/* Keyboard-only shortcut that bypasses the repeated navigation. */
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 300;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 12px 30px rgba(20, 14, 10, 0.22);
+  transform: translateY(-180%);
+  transition: transform 140ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  outline: 3px solid var(--ember-deep);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
+/* A visible, high-contrast focus ring on every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--ember-deep);
+  outline-offset: 3px;
+}
+
+/* Light ring for controls that sit on dark surfaces. */
+.sidebar :focus-visible,
+.toast :focus-visible,
+.button--primary:focus-visible,
+.button--dark:focus-visible,
+.button--ember:focus-visible,
+.button--light-ghost:focus-visible {
+  outline-color: #ffd8c6;
+}
+
+.input:focus,
+.input:focus-visible,
+.textarea:focus,
+.textarea:focus-visible {
+  outline: 2px solid var(--ember-deep);
+  outline-offset: 2px;
+}
+
+#main-content:focus-visible {
+  outline: 2px solid var(--ember-deep);
+  outline-offset: -4px;
+}
+
+[data-page-heading]:focus-visible {
+  outline: 3px solid var(--ember-deep);
+  outline-offset: 7px;
+  border-radius: 4px;
+}
+
+/* WCAG 2.2 target size: text buttons used to be only as tall as their text. */
+.text-button {
+  min-height: 24px;
+}
+
+/* Improve contrast of the solid call-to-action when the lighter stop is used. */
+.button--ember {
+  background: linear-gradient(135deg, #c24628 0%, #b33f26 100%);
+}
+
+.button--ember:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c24628 0%, #a83a23 100%);
+}
+
+@media (pointer: coarse) {
+  .icon-button,
+  .modal__close,
+  .toast__close,
+  .password-field__toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgba(36, 31, 26, 0.32);
+    --line-strong: rgba(36, 31, 26, 0.55);
+    --muted: #54493f;
+    --muted-light: #5d5146;
+  }
+
+  .input,
+  .textarea,
+  .button--ghost,
+  .icon-button,
+  .settings-tab,
+  .filter-tab,
+  .segmented__item {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .skip-link,
+  .button,
+  .icon-button,
+  .modal,
+  .modal__close,
+  .toast,
+  .input,
+  .textarea,
+  .settings-tab,
+  .filter-tab,
+  .segmented__item,
+  .backup-file {
+    border: 1px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    outline: 3px solid Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .page,
+  .page-transition {
+    animation: none;
+  }
+
+  .skip-link {
+    transition: none;
+  }
+}
+
+/* Ensure the HTML hidden attribute always wins over layout classes. */
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  /* 8–9px navigation labels are hard to read on phones. */
+  .bottom-nav__item {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Avoid the iOS auto-zoom that happens when a field is under 16px. */
+  .input,
+  .textarea {
+    font-size: 16px;
   }
 }

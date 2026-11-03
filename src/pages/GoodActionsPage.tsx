@@ -101,7 +101,10 @@ export function GoodActionsPage({
         actions={
           <div className="goal-header">
             <span className={`goal-header__count ${complete ? 'is-complete' : ''}`}>
-              {todayActions.length}/3
+              <span className="visually-hidden">
+                {t('a11y.goodGoal', { n: todayActions.length })}
+              </span>
+              <span aria-hidden="true">{todayActions.length}/3</span>
             </span>
             {!complete ? (
               <button
@@ -308,20 +311,29 @@ export function GoodActionsPage({
             {t('gestures.seeAll')} <ChevronRight size={15} />
           </button>
         </div>
-        <div className="good-week">
-          {week.map((day) => (
-            <div
-              key={day.key}
-              className={`good-week__day ${day.count >= 3 ? 'is-complete' : day.count > 0 ? 'has-some' : ''}`}
-              title={t('gestures.weekTooltip', {
-                weekday: formatWeekday(day.date),
-                n: day.count,
-              })}
-            >
-              <span>{day.count > 0 ? day.count : '·'}</span>
-              <small>{day.date.getDate()}</small>
-            </div>
-          ))}
+        <div
+          className="good-week"
+          role="group"
+          aria-label={t('a11y.goodWeekLabel')}
+        >
+          {week.map((day) => {
+            const label = t('gestures.weekTooltip', {
+              weekday: formatWeekday(day.date),
+              n: day.count,
+            })
+            return (
+              <div
+                key={day.key}
+                className={`good-week__day ${day.count >= 3 ? 'is-complete' : day.count > 0 ? 'has-some' : ''}`}
+                role="img"
+                aria-label={label}
+                title={label}
+              >
+                <span aria-hidden="true">{day.count > 0 ? day.count : '·'}</span>
+                <small aria-hidden="true">{day.date.getDate()}</small>
+              </div>
+            )
+          })}
         </div>
       </section>
 

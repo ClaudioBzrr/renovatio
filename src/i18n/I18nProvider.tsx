@@ -33,7 +33,6 @@ const I18nContext = createContext<I18nContextValue | null>(null)
 function syncDocument(locale: Locale): void {
   if (typeof document === 'undefined') return
   document.documentElement.lang = locale
-  document.title = translate(locale, 'meta.title')
   const description = document.querySelector<HTMLMetaElement>(
     'meta[name="description"]',
   )

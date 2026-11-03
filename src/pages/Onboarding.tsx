@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ArrowLeft,
   ArrowRight,
@@ -79,6 +79,11 @@ export function Onboarding({
     notificationPermission() === 'granted',
   )
   const [requesting, setRequesting] = useState(false)
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    stepHeadingRef.current?.focus({ preventScroll: true })
+  }, [step])
 
   const hasTasks = data.tasks.length > 0
   const supported = notificationsSupported()
@@ -173,7 +178,12 @@ export function Onboarding({
         </p>
       </aside>
 
-      <main className="onboarding__main">
+      <main
+        id="main-content"
+        className="onboarding__main"
+        tabIndex={-1}
+        aria-label={t('page.comecar')}
+      >
         <div className="onboarding__top">
           {step > 0 ? (
             <button
@@ -200,9 +210,23 @@ export function Onboarding({
           </div>
         </div>
 
-        <div className="onboarding__progress" aria-hidden="true">
+        <div
+          className="onboarding__progress"
+          role="progressbar"
+          aria-valuemin={1}
+          aria-valuemax={4}
+          aria-valuenow={step + 1}
+          aria-label={t('a11y.onboardingProgress', {
+            current: step + 1,
+            total: 4,
+          })}
+        >
           {[0, 1, 2, 3].map((index) => (
-            <span key={index} className={index <= step ? 'is-active' : ''} />
+            <span
+              key={index}
+              className={index <= step ? 'is-active' : ''}
+              aria-hidden="true"
+            />
           ))}
         </div>
 
@@ -210,7 +234,13 @@ export function Onboarding({
           {step === 0 ? (
             <div className="onboarding__step">
               <p className="eyebrow">{t('onboarding.step0Eyebrow')}</p>
-              <h2>{t('onboarding.step0Title')}</h2>
+              <h2
+                ref={stepHeadingRef}
+                data-page-heading
+                tabIndex={-1}
+              >
+                {t('onboarding.step0Title')}
+              </h2>
               <p className="onboarding__lede">{t('onboarding.step0Lede')}</p>
               <div className="field">
                 <label className="field__label" htmlFor="onboarding-name">
@@ -247,7 +277,13 @@ export function Onboarding({
           {step === 1 ? (
             <div className="onboarding__step">
               <p className="eyebrow">{t('onboarding.step1Eyebrow')}</p>
-              <h2>{t('onboarding.step1Title')}</h2>
+              <h2
+                ref={stepHeadingRef}
+                data-page-heading
+                tabIndex={-1}
+              >
+                {t('onboarding.step1Title')}
+              </h2>
               <p className="onboarding__lede">{t('onboarding.step1Lede')}</p>
 
               {hasTasks ? (
@@ -362,7 +398,13 @@ export function Onboarding({
           {step === 2 ? (
             <div className="onboarding__step">
               <p className="eyebrow">{t('onboarding.step2Eyebrow')}</p>
-              <h2>{t('onboarding.step2Title')}</h2>
+              <h2
+                ref={stepHeadingRef}
+                data-page-heading
+                tabIndex={-1}
+              >
+                {t('onboarding.step2Title')}
+              </h2>
               <p className="onboarding__lede">{t('onboarding.step2Lede')}</p>
               <div className="onboarding__actions-grid">
                 {GOOD_ACTION_KEYS.map((key) => {
@@ -395,7 +437,13 @@ export function Onboarding({
           {step === 3 ? (
             <div className="onboarding__step">
               <p className="eyebrow">{t('onboarding.step3Eyebrow')}</p>
-              <h2>{t('onboarding.step3Title')}</h2>
+              <h2
+                ref={stepHeadingRef}
+                data-page-heading
+                tabIndex={-1}
+              >
+                {t('onboarding.step3Title')}
+              </h2>
               <p className="onboarding__lede">{t('onboarding.step3Lede')}</p>
 
               <div className="notification-setup">

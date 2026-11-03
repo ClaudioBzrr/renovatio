@@ -22,6 +22,7 @@ Renovatio is a free bilingual PWA for scheduling micro-tasks, reflecting on what
 - **PWA:** installable, offline, manifest, service worker, icons and local notifications.
 - **Encrypted backups:** AES-256-GCM with PBKDF2-SHA-256 and a user-chosen password. No plaintext JSON export.
 - **Privacy:** no account, no cloud and no tracking; everything stays in the device’s `localStorage`.
+- **Accessibility:** skip link, semantic landmarks, keyboard focus management, screen-reader labels and live regions, modal focus trapping, reduced-motion support, high-contrast and forced-colors styles, and an automated `test:a11y` check.
 
 ## Quick start
 
@@ -66,6 +67,12 @@ npm run test:e2e
 ```
 
 The Playwright smoke test covers the landing page, onboarding flow, required reflection, good gestures, task editing, notifications, service worker, offline reload, manifest, language switching and encrypted backup export/import.
+
+An additional accessibility check validates landmarks, labels, unique IDs, ARIA references, skip link, route announcements, dialog focus/inert behavior and keyboard tab navigation:
+
+```bash
+npm run test:a11y
+```
 
 ## Safety
 
